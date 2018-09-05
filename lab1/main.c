@@ -54,7 +54,7 @@ volatile int temp;
 
 void delay()
 {
-  for(int i = 0; i < 1000; i++)
+  for(int i = 0; i < 10000; i++)
   {
     temp *= (37 - i) * (2 + i);
   }
@@ -63,13 +63,15 @@ void delay()
 void set_led_state(led_t led, bool state)
 {
   LED_CHECK;
+  
+  int bit = led_bits[led];
   if (state)
   {
-    SET_BITS(P1OUT, button_bit);
+    SET_BITS(P1OUT, bit);
   }
   else
   {
-    RESET_BITS(P1OUT, button_bit);
+    RESET_BITS(P1OUT, bit);
   }
 }
 
