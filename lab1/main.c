@@ -94,7 +94,7 @@ int main( void )
 
   button_init();
 
-  for (int i = led4; i <= led8; i++)
+  for (int i = led4; i <= LAST_LED; i++)
   {
     led_init((led_t)i);
   }
@@ -108,7 +108,7 @@ int main( void )
     if (new_button_state != curr_button_state)
     {
       blink_led(next_led);
-      next_led = (led_t)(next_led % (LAST_LED + 1));
+      next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
     }
 
     curr_button_state = new_button_state;
