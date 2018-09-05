@@ -16,3 +16,8 @@
 **/Obj/*.pbd.*
 **/Obj/*.pbi
 **/Obj/*.pbi.*
+
+Debug
+Release
+*.ewt
+*.dep
