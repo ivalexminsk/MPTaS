@@ -16,8 +16,10 @@ typedef enum led_t
   led8,
 } led_t;
 
+#define LAST_LED led8
+
 #define LED_CHECK                               \
-  if ((led > led8)/* || (led < led4)*/)         \
+  if ((led > LAST_LED)/* || (led < led4)*/)         \
   {return;}                                     \
 
 int led_bits[] = 
@@ -105,7 +107,8 @@ int main( void )
     bool new_button_state = button_read();
     if (new_button_state != curr_button_state)
     {
-      blink_led();
+      blink_led(next_led);
+      next_led = (led_t)(next_led % (LAST_LED + 1));
     }
 
     curr_button_state = new_button_state;
