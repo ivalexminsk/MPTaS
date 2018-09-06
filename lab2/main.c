@@ -57,6 +57,19 @@ void button_init()
   RESET_BITS(P1IFG, button_bit);
 }
 
+void timer_init()
+{
+  /* MC = 01b */
+  SET_BITS(TA1CTL, BIT4);
+  RESET_BITS(TA1CTL, BIT5);
+
+  /* TAIE */
+  SET_BITS(TA1CTL, BIT1);
+
+  /* TAIFG */
+  RESET_BITS(TA1CTL, BIT0);
+}
+
 volatile int temp;
 
 void arifm_delay()
@@ -138,4 +151,14 @@ __interrupt void port1_interrupt()
     next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
   }
   RESET_BITS(P1IFG, button_bit);
+}
+
+#pragma vector=TIMER1_A1_VECTOR
+__interrupt void timer_a1_interrupt()
+{
+  arifm_delay();
+  static led_t next_led = led4;
+  blink_led(next_led);
+  next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
+  RESET_BITS(TA1CTL, BIT0);
 }
