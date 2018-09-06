@@ -59,7 +59,7 @@ void button_init()
 
 volatile int temp;
 
-void delay()
+void arifm_delay()
 {
   for(int i = 0; i < 10000; i++)
   {
@@ -87,7 +87,7 @@ void blink_led(led_t led)
   LED_CHECK;
 
   set_led_state(led, true);
-  delay();
+  arifm_delay();
   set_led_state(led, false);
 }
 
@@ -108,6 +108,21 @@ int main( void )
     led_init((led_t)i);
   }
   
+  /* Load */
+  for (int i = led4; i <= LAST_LED; i++)
+  {
+    set_led_state((led_t)i, true);
+  }
+
+  arifm_delay();
+
+  for (int i = led4; i <= LAST_LED; i++)
+  {
+    set_led_state((led_t)i, false);
+  }
+
+  /* Load end */
+  
    __bis_SR_register(LPM4_bits + GIE);
   while(1);
 }
@@ -115,7 +130,7 @@ int main( void )
 #pragma vector=PORT1_VECTOR
 __interrupt void port1_interrupt()
 {
-  delay();
+  arifm_delay();
   if (button_read())
   {
     static led_t next_led = led4;
