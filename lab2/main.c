@@ -31,7 +31,7 @@ int led_bits[] =
   BIT5,
 };
 
-int button1_bit = BIT7;
+int button_bit = BIT7;
 
 void led_init(led_t led)
 {
@@ -46,8 +46,15 @@ void led_init(led_t led)
 void button_init()
 {
   RESET_BITS(P1DIR, button_bit);
+
+  /* Pullup */
   SET_BITS(P1REN, button_bit);
   SET_BITS(P1OUT, button_bit);
+
+  /* Interrrupts */
+  SET_BITS(P1IES, button_bit);
+  SET_BITS(P1IE, button_bit);
+  RESET_BITS(P1IFG, button_bit);
 }
 
 volatile int temp;
@@ -100,19 +107,20 @@ int main( void )
   {
     led_init((led_t)i);
   }
+  
+   __bis_SR_register(LPM4_bits + GIE);
+  while(1);
+}
 
-  led_t next_led = led4;
-  bool curr_button_state = false;
-
-  while(1)
+#pragma vector=PORT1_VECTOR
+__interrupt void port1_interrupt()
+{
+  delay();
+  if (button_read())
   {
-    bool new_button_state = button_read();
-    if (new_button_state != curr_button_state)
-    {
-      blink_led(next_led);
-      next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
-    }
-
-    curr_button_state = new_button_state;
+    static led_t next_led = led4;
+    blink_led(next_led);
+    next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
   }
+  RESET_BITS(P1IFG, button_bit);
 }
