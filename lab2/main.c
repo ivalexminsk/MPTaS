@@ -130,6 +130,11 @@ bool button_read()
   return ((P1IN & button_bit) ? true : false);
 }
 
+bool timer_iv_read(unsigned short bit)
+{
+  return ((TA1IV & bit) ? true : false);
+}
+
 int main( void )
 {
   // Stop watchdog timer to prevent time out reset
@@ -181,6 +186,10 @@ __interrupt void timer_a1_interrupt()
   static led_t next_led = led4;
   blink_led(next_led);
   next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
-  RESET_BITS(TA1CTL, BIT0);
-  RESET_BITS(TA1CCTL1, BIT0);
+  //RESET_BITS(TA1CTL, BIT0);
+  if (timer_iv_read(BIT1))
+  {
+    RESET_BITS(TA1CCTL1, BIT0);
+    TA1CCR1 = (TA1R + 0x3fff) % 0xffff;
+  }
 }
