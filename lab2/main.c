@@ -12,7 +12,8 @@ int main( void )
 
   timer_init();
   
-  button_init();
+  button_init(1);
+  button_init(2);
 
   for (int i = FIRST_LED; i <= LAST_LED; i++)
   {

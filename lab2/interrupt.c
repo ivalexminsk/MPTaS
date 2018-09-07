@@ -40,13 +40,25 @@ bool timer_interrupt_vector_read(unsigned short bit)
 #pragma vector=PORT1_VECTOR
 __interrupt void port1_interrupt()
 {
-  if (button_read())
+  if (button_read(1))
   {
     static led_t next_led = led4;
     blink_led(next_led);
     next_led = calc_next_led(next_led);
   }
-  RESET_BITS(P1IFG, button_bit);
+  RESET_BITS(P1IFG, button1_bit);
+}
+
+#pragma vector=PORT2_VECTOR
+__interrupt void port2_interrupt()
+{
+  if (button_read(2))
+  {
+    static led_t next_led = led4;
+    blink_led(next_led);
+    next_led = calc_next_led(next_led);
+  }
+  RESET_BITS(P2IFG, button2_bit);
 }
 
 #pragma vector=TIMER1_A1_VECTOR
