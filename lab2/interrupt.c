@@ -4,6 +4,7 @@
 #include "led.h"
 #include "button.h"
 #include "AJIOB_regs_help.h"
+#include "interrupt_handlers.h"
 
 void timer_init()
 {
@@ -32,31 +33,6 @@ void timer_init()
 bool timer_interrupt_vector_read(unsigned short bit_num)
 {
   return ((TA1IV & (BIT0 << bit_num)) ? true : false);
-}
-
-#pragma weak button1_callback
-void button1_callback()
-{
-}
-
-#pragma weak button2_callback
-void button2_callback()
-{
-}
-
-#pragma weak timer_button_callback
-void timer_button_callback()
-{
-}
-
-#pragma weak timer_turn_on_callback
-void timer_turn_on_callback()
-{
-}
-
-#pragma weak timer_turn_off_callback
-void timer_turn_off_callback()
-{
 }
 
 #pragma vector=PORT1_VECTOR

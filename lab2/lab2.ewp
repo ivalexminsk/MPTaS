@@ -2257,6 +2257,9 @@
     <name>$PROJ_DIR$\interrupt.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\interrupt_handlers.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\led.c</name>
   </file>
   <file>

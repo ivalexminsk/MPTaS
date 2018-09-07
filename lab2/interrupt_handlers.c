@@ -1,6 +1,7 @@
 #include "types.h"
 #include "interrupt.h"
 #include "led.h"
+#include "button.h"
 
 bool isS1 = true;
 
@@ -10,7 +11,7 @@ void button1_callback()
 	button_interrupt_disable(1);
 	button_interrupt_clear(1);
 	isS1 = true;
-	timer_interrupt_enable(ccr_button1);
+	timer_interrupt_enable(ccr_button);
 }
 
 // Turn off
@@ -19,7 +20,7 @@ void button2_callback()
 	button_interrupt_disable(2);
 	button_interrupt_clear(2);
 	isS1 = false;
-	timer_interrupt_enable(ccr_button2);
+	timer_interrupt_enable(ccr_button);
 }
 
 void timer_button_callback()
@@ -28,19 +29,19 @@ void timer_button_callback()
 	{
 		button_interrupt_enable(1);
 
-		timer_interrupt_disable(ccr_button1);
-		timer_interrupt_clear(ccr_button1);
+		timer_interrupt_disable(ccr_button);
+		timer_interrupt_clear(ccr_button);
 
-		timer_interrupt_enable(turn_on);
+		timer_interrupt_enable(ccr_turn_on);
 	}
 	else
 	{
 		button_interrupt_enable(2);
 
-		timer_interrupt_disable(ccr_button2);
-		timer_interrupt_clear(ccr_button2);
+		timer_interrupt_disable(ccr_button);
+		timer_interrupt_clear(ccr_button);
 		
-		timer_interrupt_enable(turn_off);
+		timer_interrupt_enable(ccr_turn_off);
 	}
 }
 
@@ -52,8 +53,8 @@ void timer_turn_on_callback()
 
 	if (current_led == led8)
 	{
-		timer_interrupt_disable(turn_on);
-		timer_interrupt_clear(turn_on);
+		timer_interrupt_disable(ccr_turn_on);
+		timer_interrupt_clear(ccr_turn_on);
 	}
 
 	current_led = calc_next_led(current_led);
@@ -67,8 +68,8 @@ void timer_turn_off_callback()
 
 	if (current_led == led4)
 	{
-		timer_interrupt_disable(turn_off);
-		timer_interrupt_clear(turn_off);
+		timer_interrupt_disable(ccr_turn_off);
+		timer_interrupt_clear(ccr_turn_off);
 	}
 
 	current_led = calc_next_led(current_led);
