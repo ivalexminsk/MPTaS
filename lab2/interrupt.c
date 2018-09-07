@@ -67,20 +67,6 @@ __interrupt void timer_a1_interrupt()
 #define max_timer_value (0x10000)
 const long one_second_timer = max_timer_value / 2;
 
-unsigned short volatile* timer_cctl[] = 
-{
-  &TA1CCTL0,
-  &TA1CCTL1,
-  &TA1CCTL2,
-};
-
-unsigned short volatile* timer_ccr[] = 
-{
-  &TA1CCR0,
-  &TA1CCR1,
-  &TA1CCR2,
-};
-
 /* Multiply second to this value */
 float timer_custom_divider[] = 
 {
@@ -94,24 +80,74 @@ float timer_custom_divider[] =
 void timer_interrupt_enable(ccr_channels_t channel)
 {
   /* Set interrupt value */
-  unsigned short volatile* ccr_ptr = timer_ccr[channel];
-  *ccr_ptr = ((unsigned short)(TA1R + (one_second_timer * timer_custom_divider[channel]))) % max_timer_value;
+  unsigned short new_comparator_value = ((unsigned short)(TA1R + (one_second_timer * timer_custom_divider[channel]))) % max_timer_value;
+
+  switch(channel)
+  {
+  case ccr_button:
+    TA1CCR0 = new_comparator_value;
+    break;
+  case ccr_turn_on:
+    TA1CCR1 = new_comparator_value;
+    break;
+  case ccr_turn_off:
+    TA1CCR2 = new_comparator_value;
+    break;
+  default:
+    break;
+  }
 
   /* Enable interrupts */
-  unsigned short volatile* reg_ptr = timer_cctl[channel];
-  SET_BITS(*reg_ptr, BIT4);
+  switch(channel)
+  {
+  case ccr_button:
+    SET_BITS(TA1CCTL0, BIT4);
+    break;
+  case ccr_turn_on:
+    SET_BITS(TA1CCTL1, BIT4);
+    break;
+  case ccr_turn_off:
+    SET_BITS(TA1CCTL2, BIT4);
+    break;
+  default:
+    break;
+  }
 
   timer_interrupt_clear(channel);
 }
 
 void timer_interrupt_disable(ccr_channels_t channel)
 {
-  unsigned short volatile* reg_ptr = timer_cctl[channel];
-  RESET_BITS(*reg_ptr, BIT4);
+  switch(channel)
+  {
+  case ccr_button:
+    RESET_BITS(TA1CCTL0, BIT4);
+    break;
+  case ccr_turn_on:
+    RESET_BITS(TA1CCTL1, BIT4);
+    break;
+  case ccr_turn_off:
+    RESET_BITS(TA1CCTL2, BIT4);
+    break;
+  default:
+    break;
+  }
 }
 
 void timer_interrupt_clear(ccr_channels_t channel)
 {
-  unsigned short volatile* reg_ptr = timer_cctl[channel];
-  RESET_BITS(*reg_ptr, BIT0);
+  switch(channel)
+  {
+  case ccr_button:
+    RESET_BITS(TA1CCTL0, BIT0);
+    break;
+  case ccr_turn_on:
+    RESET_BITS(TA1CCTL1, BIT0);
+    break;
+  case ccr_turn_off:
+    RESET_BITS(TA1CCTL2, BIT0);
+    break;
+  default:
+    break;
+  }
 }
