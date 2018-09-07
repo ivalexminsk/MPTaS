@@ -9,7 +9,9 @@
 void timer_init()
 {
   /* Select compare mode */
+  RESET_BITS(TA1CCTL0, BIT8);
   RESET_BITS(TA1CCTL1, BIT8);
+  RESET_BITS(TA1CCTL2, BIT8);
   
   /* TASSEL = ACLK */
   SET_BITS(TA1CTL, BIT8);
@@ -70,8 +72,6 @@ const long one_second_timer = max_timer_value / 2;
 /* Multiply second to this value */
 float timer_custom_divider[] = 
 {
-  1.,
-  0.1,
   0.1,
   0.8,
   0.8,
