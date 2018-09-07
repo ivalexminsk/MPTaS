@@ -49,6 +49,12 @@ void set_led_state(led_t led, bool state)
   }
 }
 
+bool get_led_state(led_t led)
+{  
+  int bit = led_bits[led];
+  return ((P1OUT & bit) ? true : false);
+}
+
 void arifm_delay()
 {
   static volatile int temp;

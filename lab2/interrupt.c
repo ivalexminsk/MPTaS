@@ -56,13 +56,9 @@ __interrupt void timer_a1_interrupt()
   {
     timer_button_callback();
   }
-  if (timer_interrupt_vector_read(ccr_turn_on))
+  if (timer_interrupt_vector_read(ccr_shift))
   {
-    timer_turn_on_callback();
-  }
-  if (timer_interrupt_vector_read(ccr_turn_off))
-  {
-    timer_turn_off_callback();
+    timer_shift_callback();
   }
 }
 
@@ -72,8 +68,8 @@ const long one_second_timer = max_timer_value / 2;
 /* Multiply second to this value */
 float timer_custom_divider[] = 
 {
+  1.,
   0.1,
-  0.8,
   0.8,
 };
 
@@ -85,12 +81,9 @@ void timer_interrupt_enable(ccr_channels_t channel)
   switch(channel)
   {
   case ccr_button:
-    TA1CCR0 = new_comparator_value;
-    break;
-  case ccr_turn_on:
     TA1CCR1 = new_comparator_value;
     break;
-  case ccr_turn_off:
+  case ccr_shift:
     TA1CCR2 = new_comparator_value;
     break;
   default:
@@ -101,12 +94,9 @@ void timer_interrupt_enable(ccr_channels_t channel)
   switch(channel)
   {
   case ccr_button:
-    SET_BITS(TA1CCTL0, BIT4);
-    break;
-  case ccr_turn_on:
     SET_BITS(TA1CCTL1, BIT4);
     break;
-  case ccr_turn_off:
+  case ccr_shift:
     SET_BITS(TA1CCTL2, BIT4);
     break;
   default:
@@ -121,12 +111,9 @@ void timer_interrupt_disable(ccr_channels_t channel)
   switch(channel)
   {
   case ccr_button:
-    RESET_BITS(TA1CCTL0, BIT4);
-    break;
-  case ccr_turn_on:
     RESET_BITS(TA1CCTL1, BIT4);
     break;
-  case ccr_turn_off:
+  case ccr_shift:
     RESET_BITS(TA1CCTL2, BIT4);
     break;
   default:
@@ -139,13 +126,10 @@ void timer_interrupt_clear(ccr_channels_t channel)
   switch(channel)
   {
   case ccr_button:
-    RESET_BITS(TA1CCTL0, BIT0);
-    break;
-  case ccr_turn_on:
     RESET_BITS(TA1CCTL1, BIT0);
     break;
-  case ccr_turn_off:
-    RESET_BITS(TA1CCTL2, BIT0);
+  case ccr_shift:
+    RESET_BITS(TA1CCTL1, BIT0);
     break;
   default:
     break;

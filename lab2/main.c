@@ -34,6 +34,8 @@ int main( void )
   }
   /* Load end */
   
+  timer_interrupt_enable(ccr_shift);
+
    __bis_SR_register(LPM4_bits + GIE);
   while(1);
 }

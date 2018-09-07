@@ -4,6 +4,7 @@
 #include "button.h"
 
 int current_button_num = 1;
+bool led_state = false;
 
 void button_main_callback()
 {
@@ -29,12 +30,10 @@ void button2_callback()
 
 void timer_button_callback()
 {
-	ccr_channels_t ccr_command = (current_button_num == 1 ? ccr_turn_on : ccr_turn_off);
-
 	if (!button_read(current_button_num))
 	{
 		/* Not miss click */
-		timer_interrupt_enable(ccr_command);
+                led_state = ((current_button_num == 1) ? true : false);
 	}
 
 	timer_interrupt_disable(ccr_button);
@@ -43,31 +42,16 @@ void timer_button_callback()
 	button_interrupt_enable(2);
 }
 
-led_t timer_turn_universal_callback(led_t current_led, ccr_channels_t channel, bool led_state)
+void timer_shift_callback()
 {
-	set_led_state(current_led, led_state);
+	led_t current_led = LAST_LED;
 
-	if (current_led == LAST_LED)
+	for(; current_led > FIRST_LED; current_led--)
 	{
-		timer_interrupt_disable(channel);
+		set_led_state(current_led, get_led_state(current_led - 1));
 	}
 
-	current_led = calc_next_led(current_led);
-	timer_interrupt_clear(channel);
+	set_led_state(FIRST_LED, led_state);
 
-	return current_led;
-}
-
-void timer_turn_on_callback()
-{
-	static led_t current_led = FIRST_LED;
-
-	current_led = timer_turn_universal_callback(current_led, ccr_turn_on, true);
-}
-
-void timer_turn_off_callback()
-{
-	static led_t current_led = FIRST_LED;
-	
-	current_led = timer_turn_universal_callback(current_led, ccr_turn_off, false);
+	timer_interrupt_clear(ccr_shift);
 }
