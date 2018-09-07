@@ -72,7 +72,7 @@ float timer_custom_divider[] =
 {
   1.,
   0.1,
-  0.8,
+  0.4,
 };
 
 void timer_interrupt_enable(ccr_channels_t channel)

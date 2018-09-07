@@ -53,5 +53,6 @@ void timer_shift_callback()
 
 	set_led_state(FIRST_LED, led_state);
 
-	timer_interrupt_clear(ccr_shift);
+	//timer_interrupt_clear(ccr_shift);
+	timer_interrupt_enable(ccr_shift);
 }
