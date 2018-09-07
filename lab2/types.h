@@ -20,7 +20,7 @@ typedef enum led_t
 
 typedef enum ccr_channels_t
 {
-  button = 1,
-  turn_on,
-  turn_off
+  ccr_button = 0,
+  ccr_turn_on,
+  ccr_turn_off
 } ccr_channels_t;

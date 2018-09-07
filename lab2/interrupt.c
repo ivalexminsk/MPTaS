@@ -7,9 +7,6 @@
 
 void timer_init()
 {
-  /* Capture/compare interrupt enable */
-  SET_BITS(TA1CCTL1, BIT4);
-
   /* Select compare mode */
   RESET_BITS(TA1CCTL1, BIT8);
   
@@ -32,33 +29,113 @@ void timer_init()
   // RESET_BITS(TA1CTL, BIT0);
 }
 
-bool timer_interrupt_vector_read(unsigned short bit)
+bool timer_interrupt_vector_read(unsigned short bit_num)
 {
-  return ((TA1IV & bit) ? true : false);
+  return ((TA1IV & (BIT0 << bit_num)) ? true : false);
+}
+
+#pragma weak button1_callback
+void button1_callback()
+{
+}
+
+#pragma weak button2_callback
+void button2_callback()
+{
+}
+
+#pragma weak timer_button_callback
+void timer_button_callback()
+{
+}
+
+#pragma weak timer_turn_on_callback
+void timer_turn_on_callback()
+{
+}
+
+#pragma weak timer_turn_off_callback
+void timer_turn_off_callback()
+{
 }
 
 #pragma vector=PORT1_VECTOR
 __interrupt void port1_interrupt()
 {
-  if (button_read())
-  {
-    static led_t next_led = led4;
-    blink_led(next_led);
-    next_led = calc_next_led(next_led);
-  }
-  RESET_BITS(P1IFG, button_bit);
+  button1_callback();
+}
+
+#pragma vector=PORT2_VECTOR
+__interrupt void port2_interrupt()
+{
+  button2_callback();
 }
 
 #pragma vector=TIMER1_A1_VECTOR
 __interrupt void timer_a1_interrupt()
 {
-  static led_t next_led = led4;
-  blink_led(next_led);
-  next_led = calc_next_led(next_led);
-  //RESET_BITS(TA1CTL, BIT0);
-  if (timer_interrupt_vector_read(BIT1))
+  if (timer_interrupt_vector_read(ccr_button))
   {
-    RESET_BITS(TA1CCTL1, BIT0);
-    TA1CCR1 = (TA1R + 0x3fff) % 0xffff;
+    timer_button_callback();
   }
+  if (timer_interrupt_vector_read(ccr_turn_on))
+  {
+    timer_turn_on_callback();
+  }
+  if (timer_interrupt_vector_read(ccr_turn_off))
+  {
+    timer_turn_off_callback();
+  }
+}
+
+#define max_timer_value (0x10000)
+const long one_second_timer = max_timer_value / 2;
+
+unsigned short volatile* timer_cctl[] = 
+{
+  &TA1CCTL0,
+  &TA1CCTL1,
+  &TA1CCTL2,
+};
+
+unsigned short volatile* timer_ccr[] = 
+{
+  &TA1CCR0,
+  &TA1CCR1,
+  &TA1CCR2,
+};
+
+/* Multiply second to this value */
+float timer_custom_divider[] = 
+{
+  1.,
+  0.1,
+  0.1,
+  0.8,
+  0.8,
+};
+
+void timer_interrupt_enable(ccr_channels_t channel)
+{
+  /* Set interrupt value */
+  unsigned short volatile* ccr_ptr = timer_ccr[channel];
+  *ccr_ptr = ((unsigned short)(TA1R + (one_second_timer * timer_custom_divider[channel]))) % max_timer_value;
+
+  /* Enable interrupts */
+  unsigned short volatile* reg_ptr = timer_cctl[channel];
+  SET_BITS(*reg_ptr, BIT4);
+
+  timer_interrupt_clear(channel);
+}
+
+void timer_interrupt_disable(ccr_channels_t channel)
+{
+  unsigned short volatile* reg_ptr = timer_cctl[channel];
+  RESET_BITS(*reg_ptr, BIT4);
+}
+
+void timer_interrupt_clear(ccr_channels_t channel)
+{
+  unsigned short volatile* reg_ptr = timer_cctl[channel];
+  RESET_BITS(*reg_ptr, BIT0);
 }
