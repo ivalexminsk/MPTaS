@@ -44,13 +44,8 @@ void button2_callback()
 {
 }
 
-#pragma weak timer_button_1_callback
-void timer_button_1_callback()
-{
-}
-
-#pragma weak timer_button_2_callback
-void timer_button_2_callback()
+#pragma weak timer_button_callback
+void timer_button_callback()
 {
 }
 
@@ -79,13 +74,9 @@ __interrupt void port2_interrupt()
 #pragma vector=TIMER1_A1_VECTOR
 __interrupt void timer_a1_interrupt()
 {
-  if (timer_interrupt_vector_read(ccr_button_1))
+  if (timer_interrupt_vector_read(ccr_button))
   {
-    timer_button_1_callback();
-  }
-  if (timer_interrupt_vector_read(ccr_button_2))
-  {
-    timer_button_2_callback();
+    timer_button_callback();
   }
   if (timer_interrupt_vector_read(ccr_turn_on))
   {
@@ -105,16 +96,12 @@ unsigned short volatile* timer_cctl[] =
   &TA1CCTL0,
   &TA1CCTL1,
   &TA1CCTL2,
-  &TA1CCTL2,
-  &TA1CCTL2,
 };
 
 unsigned short volatile* timer_ccr[] = 
 {
   &TA1CCR0,
   &TA1CCR1,
-  &TA1CCR2,
-  &TA1CCR2,
   &TA1CCR2,
 };
 
