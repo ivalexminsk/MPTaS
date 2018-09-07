@@ -76,6 +76,10 @@ void timer_init()
   SET_BITS(TA1CTL, BIT8);
   RESET_BITS(TA1CTL, BIT9);
   
+  /* ID = /1 */
+  RESET_BITS(TA1CTL, BIT6);
+  RESET_BITS(TA1CTL, BIT7);
+  
   /* MC = 10b */
   RESET_BITS(TA1CTL, BIT4);
   SET_BITS(TA1CTL, BIT5);
@@ -162,7 +166,6 @@ int main( void )
 #pragma vector=PORT1_VECTOR
 __interrupt void port1_interrupt()
 {
-  arifm_delay();
   if (button_read())
   {
     static led_t next_led = led4;
@@ -179,4 +182,5 @@ __interrupt void timer_a1_interrupt()
   blink_led(next_led);
   next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
   RESET_BITS(TA1CTL, BIT0);
+  RESET_BITS(TA1CCTL1, BIT0);
 }
