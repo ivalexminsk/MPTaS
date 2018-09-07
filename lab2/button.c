@@ -89,6 +89,6 @@ void button_interrupt_clear(int num)
   }
   else if (num == 2)
   {
-    RESET_BITS(P1IFG, button2_bit);
+    RESET_BITS(P2IFG, button2_bit);
   }
 }
