@@ -62,13 +62,13 @@ void button_interrupt_enable(int num)
   if (num == 1)
   {
     SET_BITS(P1IE, button1_bit);
-    RESET_BITS(P1IFG, button1_bit);
   }
   else if (num == 2)
   {
     SET_BITS(P2IE, button2_bit);
-    RESET_BITS(P1IFG, button2_bit);
   }
+
+  button_interrupt_clear(num);
 }
 
 void button_interrupt_disable(int num)
@@ -80,5 +80,17 @@ void button_interrupt_disable(int num)
   else if (num == 2)
   {
     RESET_BITS(P2IE, button2_bit);
+  }
+}
+
+void button_interrupt_clear(int num)
+{
+  if (num == 1)
+  {
+    RESET_BITS(P1IFG, button1_bit);
+  }
+  else if (num == 2)
+  {
+    RESET_BITS(P1IFG, button2_bit);
   }
 }

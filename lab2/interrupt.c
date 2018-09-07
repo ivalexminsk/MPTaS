@@ -7,9 +7,6 @@
 
 void timer_init()
 {
-//   /* Capture/compare interrupt enable */
-//   SET_BITS(TA1CCTL1, BIT4);
-
   /* Select compare mode */
   RESET_BITS(TA1CCTL1, BIT8);
   
@@ -47,8 +44,13 @@ void button2_callback()
 {
 }
 
-#pragma weak timer_button_callback
-void timer_button_callback()
+#pragma weak timer_button_1_callback
+void timer_button_1_callback()
+{
+}
+
+#pragma weak timer_button_2_callback
+void timer_button_2_callback()
 {
 }
 
@@ -77,10 +79,13 @@ __interrupt void port2_interrupt()
 #pragma vector=TIMER1_A1_VECTOR
 __interrupt void timer_a1_interrupt()
 {
-  if (timer_interrupt_vector_read(ccr_button))
+  if (timer_interrupt_vector_read(ccr_button_1))
   {
-    timer_button_callback();
-    // TA1CCR1 = (TA1R + 0x3fff) % 0xffff;
+    timer_button_1_callback();
+  }
+  if (timer_interrupt_vector_read(ccr_button_2))
+  {
+    timer_button_2_callback();
   }
   if (timer_interrupt_vector_read(ccr_turn_on))
   {
@@ -90,4 +95,60 @@ __interrupt void timer_a1_interrupt()
   {
     timer_turn_off_callback();
   }
+}
+
+#define max_timer_value (0x10000)
+const long one_second_timer = max_timer_value / 2;
+
+unsigned short volatile* timer_cctl[] = 
+{
+  &TA1CCTL0,
+  &TA1CCTL1,
+  &TA1CCTL2,
+  &TA1CCTL2,
+  &TA1CCTL2,
+};
+
+unsigned short volatile* timer_ccr[] = 
+{
+  &TA1CCR0,
+  &TA1CCR1,
+  &TA1CCR2,
+  &TA1CCR2,
+  &TA1CCR2,
+};
+
+/* Multiply second to this value */
+float timer_custom_divider[] = 
+{
+  1.,
+  0.1,
+  0.1,
+  0.8,
+  0.8,
+};
+
+void timer_interrupt_enable(ccr_channels_t channel)
+{
+  /* Set interrupt value */
+  unsigned short volatile* ccr_ptr = timer_ccr[channel];
+  *ccr_ptr = ((unsigned short)(TA1R + (one_second_timer * timer_custom_divider[channel]))) % max_timer_value;
+
+  /* Enable interrupts */
+  unsigned short volatile* reg_ptr = timer_cctl[channel];
+  SET_BITS(*reg_ptr, BIT4);
+
+  timer_interrupt_clear(channel);
+}
+
+void timer_interrupt_disable(ccr_channels_t channel)
+{
+  unsigned short volatile* reg_ptr = timer_cctl[channel];
+  RESET_BITS(*reg_ptr, BIT4);
+}
+
+void timer_interrupt_clear(ccr_channels_t channel)
+{
+  unsigned short volatile* reg_ptr = timer_cctl[channel];
+  RESET_BITS(*reg_ptr, BIT0);
 }
