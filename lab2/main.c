@@ -16,6 +16,13 @@ typedef enum led_t
   led8,
 } led_t;
 
+typedef enum ccr_channels_t
+{
+  button = 1,
+  turn_on,
+  turn_off
+} ccr_channels_t;
+
 #define LAST_LED led8
 
 #define LED_CHECK                               \
@@ -59,15 +66,25 @@ void button_init()
 
 void timer_init()
 {
-  /* MC = 01b */
-  SET_BITS(TA1CTL, BIT4);
-  RESET_BITS(TA1CTL, BIT5);
+  /* Capture/compare interrupt enable */
+  SET_BITS(TA1CCTL1, BIT4);
 
-  /* TAIE */
-  SET_BITS(TA1CTL, BIT1);
+  /* Select compare mode */
+  RESET_BITS(TA1CCTL1, BIT8);
+  
+  /* TASSEL = ACLK */
+  SET_BITS(TA1CTL, BIT8);
+  RESET_BITS(TA1CTL, BIT9);
+  
+  /* MC = 10b */
+  RESET_BITS(TA1CTL, BIT4);
+  SET_BITS(TA1CTL, BIT5);
 
-  /* TAIFG */
-  RESET_BITS(TA1CTL, BIT0);
+  // /* TAIE */
+  // SET_BITS(TA1CTL, BIT1);
+
+  // /* TAIFG */
+  // RESET_BITS(TA1CTL, BIT0);
 }
 
 volatile int temp;
@@ -114,6 +131,8 @@ int main( void )
   // Stop watchdog timer to prevent time out reset
   WDTCTL = WDTPW + WDTHOLD;
 
+  timer_init();
+  
   button_init();
 
   for (int i = led4; i <= LAST_LED; i++)
@@ -156,7 +175,6 @@ __interrupt void port1_interrupt()
 #pragma vector=TIMER1_A1_VECTOR
 __interrupt void timer_a1_interrupt()
 {
-  arifm_delay();
   static led_t next_led = led4;
   blink_led(next_led);
   next_led = (led_t)((next_led + 1) % (LAST_LED + 1));
