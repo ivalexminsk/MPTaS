@@ -9,7 +9,7 @@
 void timer_init()
 {
   /* Select compare mode */
-  RESET_BITS(TA1CCTL0, BIT8);
+  //RESET_BITS(TA1CCTL0, BIT8);
   RESET_BITS(TA1CCTL1, BIT8);
   RESET_BITS(TA1CCTL2, BIT8);
   
@@ -32,9 +32,9 @@ void timer_init()
   // RESET_BITS(TA1CTL, BIT0);
 }
 
-bool timer_interrupt_vector_read(unsigned short bit_num)
+bool timer_interrupt_vector_read(int val, unsigned short bit_num)
 {
-  return ((TA1IV & (BIT0 << bit_num)) ? true : false);
+  return ((val & (BIT0 << bit_num)) ? true : false);
 }
 
 #pragma vector=PORT1_VECTOR
@@ -52,11 +52,13 @@ __interrupt void port2_interrupt()
 #pragma vector=TIMER1_A1_VECTOR
 __interrupt void timer_a1_interrupt()
 {
-  if (timer_interrupt_vector_read(ccr_button))
+  int val = TA1IV;
+
+  if (timer_interrupt_vector_read(val, ccr_button))
   {
     timer_button_callback();
   }
-  if (timer_interrupt_vector_read(ccr_shift))
+  if (timer_interrupt_vector_read(val, ccr_shift))
   {
     timer_shift_callback();
   }
@@ -129,7 +131,7 @@ void timer_interrupt_clear(ccr_channels_t channel)
     RESET_BITS(TA1CCTL1, BIT0);
     break;
   case ccr_shift:
-    RESET_BITS(TA1CCTL1, BIT0);
+    RESET_BITS(TA1CCTL2, BIT0);
     break;
   default:
     break;
