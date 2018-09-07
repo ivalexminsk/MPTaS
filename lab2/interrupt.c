@@ -7,8 +7,8 @@
 
 void timer_init()
 {
-  /* Capture/compare interrupt enable */
-  SET_BITS(TA1CCTL1, BIT4);
+//   /* Capture/compare interrupt enable */
+//   SET_BITS(TA1CCTL1, BIT4);
 
   /* Select compare mode */
   RESET_BITS(TA1CCTL1, BIT8);
@@ -32,45 +32,62 @@ void timer_init()
   // RESET_BITS(TA1CTL, BIT0);
 }
 
-bool timer_interrupt_vector_read(unsigned short bit)
+bool timer_interrupt_vector_read(unsigned short bit_num)
 {
-  return ((TA1IV & bit) ? true : false);
+  return ((TA1IV & (BIT0 << bit_num)) ? true : false);
+}
+
+#pragma weak button1_callback
+void button1_callback()
+{
+}
+
+#pragma weak button2_callback
+void button2_callback()
+{
+}
+
+#pragma weak timer_button_callback
+void timer_button_callback()
+{
+}
+
+#pragma weak timer_turn_on_callback
+void timer_turn_on_callback()
+{
+}
+
+#pragma weak timer_turn_off_callback
+void timer_turn_off_callback()
+{
 }
 
 #pragma vector=PORT1_VECTOR
 __interrupt void port1_interrupt()
 {
-  if (button_read(1))
-  {
-    static led_t next_led = led4;
-    blink_led(next_led);
-    next_led = calc_next_led(next_led);
-  }
-  RESET_BITS(P1IFG, button1_bit);
+  button1_callback();
 }
 
 #pragma vector=PORT2_VECTOR
 __interrupt void port2_interrupt()
 {
-  if (button_read(2))
-  {
-    static led_t next_led = led4;
-    blink_led(next_led);
-    next_led = calc_next_led(next_led);
-  }
-  RESET_BITS(P2IFG, button2_bit);
+  button2_callback();
 }
 
 #pragma vector=TIMER1_A1_VECTOR
 __interrupt void timer_a1_interrupt()
 {
-  static led_t next_led = led4;
-  blink_led(next_led);
-  next_led = calc_next_led(next_led);
-  //RESET_BITS(TA1CTL, BIT0);
-  if (timer_interrupt_vector_read(BIT1))
+  if (timer_interrupt_vector_read(ccr_button))
   {
-    RESET_BITS(TA1CCTL1, BIT0);
-    TA1CCR1 = (TA1R + 0x3fff) % 0xffff;
+    timer_button_callback();
+    // TA1CCR1 = (TA1R + 0x3fff) % 0xffff;
+  }
+  if (timer_interrupt_vector_read(ccr_turn_on))
+  {
+    timer_turn_on_callback();
+  }
+  if (timer_interrupt_vector_read(ccr_turn_off))
+  {
+    timer_turn_off_callback();
   }
 }
