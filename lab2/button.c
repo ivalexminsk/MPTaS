@@ -19,8 +19,6 @@ void button_init(int num)
 
     /* Interrrupts */
     SET_BITS(P1IES, button_bit);
-    // SET_BITS(P1IE, button_bit);
-    // RESET_BITS(P1IFG, button_bit);
   }
   else if (num == 2)
   {
@@ -34,9 +32,9 @@ void button_init(int num)
 
     /* Interrrupts */
     SET_BITS(P2IES, button_bit);
-    // SET_BITS(P2IE, button_bit);
-    // RESET_BITS(P2IFG, button_bit);
   }
+
+  button_interrupt_enable(num);
 }
 
 bool button_read(int num)
