@@ -84,6 +84,13 @@ void set_led_state(led_t led, bool state)
   }
 }
 
+void led_loggle(led_t led)
+{
+  LED_CHECK;
+
+  set_led_state(led, !get_led_state(led));
+}
+
 bool get_led_state(led_t led)
 {  
   int bit = led_bits[led].bit_mask;

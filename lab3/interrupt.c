@@ -9,6 +9,12 @@
 
 void timer_init()
 {
+  timer_a_init();
+  timer_b_init();
+}
+
+void timer_a_init()
+{
   /* Select compare mode */
   //RESET_BITS(TA1CCTL0, BIT8);
   RESET_BITS(TA1CCTL1, BIT8);
@@ -31,6 +37,21 @@ void timer_init()
 
   // /* TAIFG */
   // RESET_BITS(TA1CTL, BIT0);
+}
+
+void timer_b_init()
+{
+  /* TBSSEL = ACLK */
+  SET_BITS(TB0CTL, BIT8);
+  RESET_BITS(TB0CTL, BIT9);
+
+  /* ID = /1 */
+  RESET_BITS(TB0CTL, BIT6);
+  RESET_BITS(TB0CTL, BIT7);
+
+  /* MC = 01b */
+  SET_BITS(TB0CTL, BIT4);
+  RESET_BITS(TB0CTL, BIT5);
 }
 
 bool timer_interrupt_vector_read(int val, unsigned short bit_num)
@@ -58,8 +79,8 @@ __interrupt void timer_a1_interrupt()
   if (timer_interrupt_vector_read(val, ccr_button))
   {
     //crunch: need to locale in interrupt handler:
-    if ((current_button_num == LPM_BUTTON) 
-      && !button_read(current_button_num) 
+    if ((current_button_num == LPM_BUTTON)
+      && !button_read(current_button_num)
       && curr_pmm_mode == pmm_lpm)
     {
       LPM1_EXIT;
@@ -70,6 +91,13 @@ __interrupt void timer_a1_interrupt()
   {
     timer_shift_callback();
   }
+}
+
+#pragma vector=TIMER0_B1_VECTOR
+__interrupt void timer_b1_interrupt()
+{
+  led_loggle(TIMER_LED);
+  timer_b_interrupt_clear();
 }
 
 #define max_timer_value (0x10000)
@@ -144,4 +172,16 @@ void timer_interrupt_clear(ccr_channels_t channel)
   default:
     break;
   }
+}
+
+void timer_b_interrupt_enable()
+{
+  TB0CCR0 = 0x8000;
+  SET_BITS(TB0CTL, BIT1);
+  timer_b_interrupt_clear();
+}
+
+void timer_b_interrupt_clear()
+{
+  RESET_BITS(TB0CTL, BIT0);
 }
