@@ -48,7 +48,7 @@ void timer_shift_callback()
 
 	for(; current_led > FIRST_LED; current_led--)
 	{
-		set_led_state(current_led, get_led_state(current_led - 1));
+		set_led_state(current_led, get_led_state((led_t)((int)current_led - 1)));
 	}
 
 	set_led_state(FIRST_LED, led_state);
