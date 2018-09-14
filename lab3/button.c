@@ -2,93 +2,73 @@
 
 #include "AJIOB_regs_help.h"
 
-const int button1_bit = BIT7;
-const int button2_bit = BIT2;
+static gpio_info_t button_info[] = 
+{
+  {
+    .bit_mask = BIT0,
+  },
+  {
+    .dir_port = &P1DIR,
+    .out_port = &P1OUT,
+    .ren_port = &P1REN,
+    .ies_port = &P1IES,
+    .ie_port  = &P1IE,
+    .ifg_port = &P1IFG,
+    .in_port  = &P1IN,
+    .bit_mask = BIT7,
+  },
+  {
+    .dir_port = &P2DIR,
+    .out_port = &P2OUT,
+    .ren_port = &P2REN,
+    .ies_port = &P2IES,
+    .ie_port  = &P2IE,
+    .ifg_port = &P2IFG,
+    .in_port  = &P2IN,
+    .bit_mask = BIT2,
+  },
+};
 
 void button_init(int num)
 {
-  if (num == 1)
-  {
-    int button_bit = button1_bit;
+  gpio_info_t info = button_info[num];
+  int button_bit = info.bit_mask;
 
-    RESET_BITS(P1DIR, button_bit);
+  RESET_BITS(*(info.dir_port), button_bit);
 
-    /* Pullup */
-    SET_BITS(P1REN, button_bit);
-    SET_BITS(P1OUT, button_bit);
+  /* Pullup */
+  SET_BITS(*(info.ren_port), button_bit);
+  SET_BITS(*(info.out_port), button_bit);
 
-    /* Interrrupts */
-    SET_BITS(P1IES, button_bit);
-  }
-  else if (num == 2)
-  {
-    int button_bit = button2_bit;
-
-    RESET_BITS(P2DIR, button_bit);
-
-    /* Pullup */
-    SET_BITS(P2REN, button_bit);
-    SET_BITS(P2OUT, button_bit);
-
-    /* Interrrupts */
-    SET_BITS(P2IES, button_bit);
-  }
+  /* Interrrupts */
+  SET_BITS(*(info.ies_port), button_bit);
 
   button_interrupt_enable(num);
 }
 
 bool button_read(int num)
 {
-  int value;
-  switch(num)
-  {
-  case 1:
-    value = (P1IN & button1_bit);
-    break;
-  case 2:
-    value = (P2IN & button2_bit);
-    break;
-  default:
-    value = 0;
-    break;
-  }
+  gpio_info_t info = button_info[num];
+  int value = ((*(info.in_port)) & (info.bit_mask));
   return (value ? true : false);
 }
 
 void button_interrupt_enable(int num)
 {
-  if (num == 1)
-  {
-    SET_BITS(P1IE, button1_bit);
-  }
-  else if (num == 2)
-  {
-    SET_BITS(P2IE, button2_bit);
-  }
-
+  gpio_info_t info = button_info[num];
+  SET_BITS(*(info.ie_port), info.bit_mask);
+  
   button_interrupt_clear(num);
 }
 
 void button_interrupt_disable(int num)
 {
-  if (num == 1)
-  {
-    RESET_BITS(P1IE, button1_bit);
-  }
-  else if (num == 2)
-  {
-    RESET_BITS(P2IE, button2_bit);
-  }
+  gpio_info_t info = button_info[num];
+  RESET_BITS(*(info.ie_port), info.bit_mask);
 }
 
 void button_interrupt_clear(int num)
 {
-  if (num == 1)
-  {
-    RESET_BITS(P1IFG, button1_bit);
-  }
-  else if (num == 2)
-  {
-    RESET_BITS(P2IFG, button2_bit);
-  }
+  gpio_info_t info = button_info[num];
+  RESET_BITS(*(info.ifg_port), info.bit_mask);
 }

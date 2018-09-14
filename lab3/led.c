@@ -6,7 +6,7 @@
   if ((led > LAST_LED)/* || (led < FIRST_LED)*/)\
   {return;}                                     \
 
-static led_info_t led_bits[] = 
+static gpio_info_t led_bits[] = 
 {
   { //1.0
     .dir_port = &P1DIR,
@@ -54,10 +54,10 @@ void led_init(led_t led)
 {
   LED_CHECK;
 
-  led_info_t bit_info = led_bits[led];
+  gpio_info_t bit_info = led_bits[led];
 
-  SET_BITS(*bit_info.dir_port, bit_info.bit_mask);
-  RESET_BITS(*bit_info.out_port, bit_info.bit_mask);
+  SET_BITS(*(bit_info.dir_port), bit_info.bit_mask);
+  RESET_BITS(*(bit_info.out_port), bit_info.bit_mask);
 }
 
 void blink_led(led_t led)
@@ -73,14 +73,14 @@ void set_led_state(led_t led, bool state)
 {
   LED_CHECK;
   
-  led_info_t bit_info = led_bits[led];
+  gpio_info_t bit_info = led_bits[led];
   if (state)
   {
-    SET_BITS(*bit_info.out_port, bit_info.bit_mask);
+    SET_BITS(*(bit_info.out_port), bit_info.bit_mask);
   }
   else
   {
-    RESET_BITS(*bit_info.out_port, bit_info.bit_mask);
+    RESET_BITS(*(bit_info.out_port), bit_info.bit_mask);
   }
 }
 

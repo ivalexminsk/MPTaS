@@ -23,12 +23,17 @@ typedef enum led_t
 
 typedef unsigned char volatile out_port_type_t;
 
-typedef struct led_info_t
+typedef struct gpio_info_t
 {
   out_port_type_t* dir_port;
   out_port_type_t* out_port;
+  out_port_type_t* ren_port;
+  out_port_type_t* ies_port;
+  out_port_type_t* ie_port;
+  out_port_type_t* ifg_port;
+  out_port_type_t* in_port;
   unsigned short bit_mask;
-} led_info_t;
+} gpio_info_t;
 
 typedef enum ccr_channels_t
 {
