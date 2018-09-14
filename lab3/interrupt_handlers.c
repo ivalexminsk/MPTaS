@@ -61,7 +61,7 @@ void timer_shift_callback()
 
 void button_universal_internal_exec()
 {
-	if (current_button_num == 1)
+	if (current_button_num == LPM_BUTTON)
 	{
 		pmm_switch_curr_mode();
 	}

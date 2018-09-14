@@ -35,6 +35,10 @@ int main( void )
   /* Load end */
   
    __bis_SR_register(GIE);
-  pmm_set_lpm();
-  while(1);
+  
+  while(1)
+  {
+    /* Set LPM if need only */
+    pmm_set_lpm();
+  }
 }

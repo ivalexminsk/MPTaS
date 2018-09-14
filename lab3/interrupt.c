@@ -5,6 +5,7 @@
 #include "button.h"
 #include "AJIOB_regs_help.h"
 #include "interrupt_handlers.h"
+#include "pmm.h"
 
 void timer_init()
 {
@@ -12,15 +13,15 @@ void timer_init()
   //RESET_BITS(TA1CCTL0, BIT8);
   RESET_BITS(TA1CCTL1, BIT8);
   RESET_BITS(TA1CCTL2, BIT8);
-  
+
   /* TASSEL = ACLK */
   SET_BITS(TA1CTL, BIT8);
   RESET_BITS(TA1CTL, BIT9);
-  
+
   /* ID = /1 */
   RESET_BITS(TA1CTL, BIT6);
   RESET_BITS(TA1CTL, BIT7);
-  
+
   /* MC = 10b */
   RESET_BITS(TA1CTL, BIT4);
   SET_BITS(TA1CTL, BIT5);
@@ -56,6 +57,13 @@ __interrupt void timer_a1_interrupt()
 
   if (timer_interrupt_vector_read(val, ccr_button))
   {
+    //crunch: need to locale in interrupt handler:
+    if ((current_button_num == LPM_BUTTON) 
+      && !button_read(current_button_num) 
+      && curr_pmm_mode == pmm_lpm)
+    {
+      LPM1_EXIT;
+    }
     timer_button_callback();
   }
   if (timer_interrupt_vector_read(val, ccr_shift))
@@ -68,7 +76,7 @@ __interrupt void timer_a1_interrupt()
 const long one_second_timer = max_timer_value / 2;
 
 /* Multiply second to this value */
-float timer_custom_divider[] = 
+float timer_custom_divider[] =
 {
   1.,
   0.1,
