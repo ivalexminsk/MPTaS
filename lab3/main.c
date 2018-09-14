@@ -5,6 +5,7 @@
 #include "interrupt.h"
 #include "button.h"
 #include "pmm.h"
+#include "clk.h"
 
 int main( void )
 {
@@ -15,6 +16,8 @@ int main( void )
   
   button_init(1);
   button_init(2);
+
+  clk_init();
 
   for (int i = FIRST_LED; i <= LAST_LED; i++)
   {

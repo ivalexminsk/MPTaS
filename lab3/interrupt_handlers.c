@@ -4,6 +4,7 @@
 #include "led.h"
 #include "button.h"
 #include "pmm.h"
+#include "clk.h"
 
 int current_button_num = 1;
 bool led_state = false;
@@ -67,6 +68,7 @@ void button_universal_internal_exec()
 	}
 	else
 	{
+		clk_toggle();
 		//TODO: add callback of U & freq switch
 	}
 }
