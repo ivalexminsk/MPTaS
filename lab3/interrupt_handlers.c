@@ -1,7 +1,9 @@
 #include "types.h"
 #include "interrupt.h"
+#include "interrupt_handlers.h"
 #include "led.h"
 #include "button.h"
+#include "pmm.h"
 
 int current_button_num = 1;
 bool led_state = false;
@@ -10,7 +12,7 @@ void button_main_callback()
 {
 	button_interrupt_disable(1);
 	button_interrupt_disable(2);
-	
+
 	timer_interrupt_enable(ccr_button);
 }
 
@@ -33,7 +35,7 @@ void timer_button_callback()
 	if (!button_read(current_button_num))
 	{
 		/* Not miss click */
-                led_state = ((current_button_num == 1) ? true : false);
+		button_universal_internal_exec();
 	}
 
 	timer_interrupt_disable(ccr_button);
@@ -44,15 +46,27 @@ void timer_button_callback()
 
 void timer_shift_callback()
 {
-	led_t current_led = LAST_LED;
+	// led_t current_led = LAST_LED;
 
-	for(; current_led > FIRST_LED; current_led--)
-	{
-		set_led_state(current_led, get_led_state((led_t)((int)current_led - 1)));
-	}
+	// for(; current_led > FIRST_LED; current_led--)
+	// {
+	// 	set_led_state(current_led, get_led_state((led_t)((int)current_led - 1)));
+	// }
 
-	set_led_state(FIRST_LED, led_state);
+	// set_led_state(FIRST_LED, led_state);
 
 	//timer_interrupt_clear(ccr_shift);
-	timer_interrupt_enable(ccr_shift);
+	// timer_interrupt_enable(ccr_shift);
+}
+
+void button_universal_internal_exec()
+{
+	if (current_button_num == 1)
+	{
+		pmm_switch_curr_mode();
+	}
+	else
+	{
+		//TODO: add callback of U & freq switch
+	}
 }

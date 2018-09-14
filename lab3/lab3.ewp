@@ -2265,6 +2265,9 @@
   <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
+  <file>
+    <name>$PROJ_DIR$\pmm.c</name>
+  </file>
 </project>
 
 

@@ -4,6 +4,7 @@
 #include "AJIOB_regs_help.h"
 #include "interrupt.h"
 #include "button.h"
+#include "pmm.h"
 
 int main( void )
 {
@@ -33,8 +34,7 @@ int main( void )
   }
   /* Load end */
   
-  timer_interrupt_enable(ccr_shift);
-
-   __bis_SR_register(LPM4_bits + GIE);
+   __bis_SR_register(GIE);
+  pmm_set_lpm();
   while(1);
 }
