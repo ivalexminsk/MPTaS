@@ -58,7 +58,7 @@ bool get_led_state(led_t led)
 void arifm_delay()
 {
   static volatile int temp;
-  for(int i = 0; i < 10000; i++)
+  for(int i = 0; i < 3000; i++)
   {
     temp *= (37 - i) * (2 + i);
   }

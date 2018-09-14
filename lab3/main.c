@@ -24,9 +24,8 @@ int main( void )
   for (int i = FIRST_LED; i <= LAST_LED; i++)
   {
     set_led_state((led_t)i, true);
+    arifm_delay();
   }
-
-  arifm_delay();
 
   for (int i = FIRST_LED; i <= LAST_LED; i++)
   {
