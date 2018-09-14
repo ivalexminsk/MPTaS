@@ -41,9 +41,9 @@ void timer_a_init()
 
 void timer_b_init()
 {
-  /* TBSSEL = ACLK */
-  SET_BITS(TB0CTL, BIT8);
-  RESET_BITS(TB0CTL, BIT9);
+  /* TBSSEL = SMCLK */
+  RESET_BITS(TB0CTL, BIT8);
+  SET_BITS(TB0CTL, BIT9);
 
   /* ID = /1 */
   RESET_BITS(TB0CTL, BIT6);
