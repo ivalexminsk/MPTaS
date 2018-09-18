@@ -30,6 +30,10 @@ void clk_init()
     //SMCLK enable to DCOCLK
     RESET_BITS(UCSCTL4, SELS_MASK);
     SET_BITS(UCSCTL4, SELS_DCOCLK);
+
+    //Pin 7.7 as peripheral
+    SET_BITS(P7SEL, BIT7);
+    SET_BITS(P7DIR, BIT7);
 }
 
 void clk_toggle()
