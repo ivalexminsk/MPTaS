@@ -34,6 +34,10 @@ void clk_init()
     //Pin 7.7 as peripheral
     SET_BITS(P7SEL, BIT7);
     SET_BITS(P7DIR, BIT7);
+
+    //SVS reconfigure to mode, that can work with 01 & 11 in PMMCOREV
+    // RESET_BITS(SVSMHCTL, SVSMHRRL_7);
+    // SET_BITS(SVSMHCTL, SVSMHRRL_3);
 }
 
 void clk_toggle()
@@ -49,9 +53,17 @@ void clk_toggle()
         //SMCLK reconf
         RESET_BITS(UCSCTL4, SELS_MASK);
         SET_BITS(UCSCTL4, SELS_XT1CLK);
+
+        //Vcore reconfigure to low-U
+        SET_BITS(PMMCTL0, BIT0);
+        RESET_BITS(PMMCTL0, BIT1);
     }
     else
     {
+        //Vcore reconfigure to high-U
+        SET_BITS(PMMCTL0, BIT0);
+        SET_BITS(PMMCTL0, BIT1);
+
         //MCLK reconf
         RESET_BITS(UCSCTL4, SELM_MASK);
         SET_BITS(UCSCTL4, SELM_DCOCLK);
