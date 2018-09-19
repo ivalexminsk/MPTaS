@@ -45,11 +45,8 @@ void clk_init()
     SET_BITS(P7SEL, BIT7);
     SET_BITS(P7DIR, BIT7);
 
+    //set to minimum level
     set_vcore_up(1);
-
-    //SVS reconfigure to mode, that can work with 01 & 11 in PMMCOREV
-    // RESET_BITS(SVSMHCTL, SVSMHRRL_7);
-    // SET_BITS(SVSMHCTL, SVSMHRRL_3);
 }
 
 void clk_toggle()
@@ -67,18 +64,12 @@ void clk_toggle()
         SET_BITS(UCSCTL4, SELS_XT1CLK);
 
         //Vcore reconfigure to low-U
-        //SET_BITS(PMMCTL0, BIT0);
-        //RESET_BITS(PMMCTL0, BIT1);
-        set_vcore_up(2);
-        set_vcore_up(1);
-        // set_vcore_down(2);
-        // set_vcore_down(1);
+        set_vcore_down(2);
+        set_vcore_down(1);
     }
     else
     {
         //Vcore reconfigure to high-U
-        //SET_BITS(PMMCTL0, BIT0);
-        //SET_BITS(PMMCTL0, BIT1);
         set_vcore_up(2);
         set_vcore_up(3);
 
@@ -128,9 +119,9 @@ void set_vcore_down (unsigned int level)
 {
     // Open PMM registers for write access
     PMMCTL0_H = 0xA5;
-#if 0
-    // Set SVS/SVM low side to new level (and enables it if need)
-    SVSMLCTL = SVSLE + SVSLRVL0 * level + SVMLE + SVSMLRRL0 * level;
+
+    // Set SVS/SVM low side to minimum level
+    SVSMLCTL = SVSLE + SVMLE;
     while ((PMMIFG & SVSMLDLYIFG) == 0);
 
     // Set VCore to new level
@@ -140,7 +131,10 @@ void set_vcore_down (unsigned int level)
     {
         while ((PMMIFG & SVMLVLRIFG) == 0);
     }
-#endif
+
+    // Set SVS/SVM low side to new level (and enables it if need)
+    SVSMLCTL = SVSLE + SVSLRVL0 * level + SVMLE + SVSMLRRL0 * level;
+
     // Lock PMM registers for write access
     PMMCTL0_H = 0x00;
 }
