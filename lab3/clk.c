@@ -29,9 +29,9 @@ void clk_init()
     RESET_BITS(UCSCTL3, (BIT2 | BIT1 | BIT0));
     //FLLD => /1
     RESET_BITS(UCSCTL2, (BIT12 | BIT13 | BIT14));
-    //FLLN => 22
+    //FLLN => 21
     RESET_BITS(UCSCTL2, 0x3FF);
-    SET_BITS(UCSCTL2, 22);
+    SET_BITS(UCSCTL2, 21);
 
     //MCLK enable to DCOCLK
     RESET_BITS(UCSCTL4, SELM_MASK);
@@ -82,11 +82,11 @@ void clk_toggle()
 
         //MCLK reconf
         RESET_BITS(UCSCTL4, SELM_MASK);
-        SET_BITS(UCSCTL4, SELM_XT1CLK);
+        SET_BITS(UCSCTL4, SELM_DCOCLK);
 
         //SMCLK reconf
         RESET_BITS(UCSCTL4, SELS_MASK);
-        SET_BITS(UCSCTL4, SELS_XT1CLK);
+        SET_BITS(UCSCTL4, SELS_DCOCLK);
     }
 
 
@@ -126,7 +126,7 @@ void set_vcore_down (unsigned int level)
 {
     // Open PMM registers for write access
     PMMCTL0_H = 0xA5;
-
+#if 0
     // Set SVS/SVM low side to new level (and enables it if need)
     SVSMLCTL = SVSLE + SVSLRVL0 * level + SVMLE + SVSMLRRL0 * level;
     while ((PMMIFG & SVSMLDLYIFG) == 0);
@@ -138,7 +138,7 @@ void set_vcore_down (unsigned int level)
     {
         while ((PMMIFG & SVMLVLRIFG) == 0);
     }
-
+#endif
     // Lock PMM registers for write access
     PMMCTL0_H = 0x00;
 }
