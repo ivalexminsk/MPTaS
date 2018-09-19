@@ -21,7 +21,17 @@
 
 void clk_init()
 {
-    //TODO: config FLL
+    //DCORSEL sel to min interval (0 to 1.13 MHz)
+    RESET_BITS(UCSCTL1, (BIT4 | BIT5 | BIT6));
+    //SELREF => XT1CLK
+    RESET_BITS(UCSCTL3, (BIT4 | BIT5 | BIT6));
+    //FLLREFDIV => /1
+    RESET_BITS(UCSCTL3, (BIT2 | BIT1 | BIT0));
+    //FLLD => /1
+    RESET_BITS(UCSCTL2, (BIT12 | BIT13 | BIT14));
+    //FLLN => 22
+    RESET_BITS(UCSCTL2, 0x3FF);
+    SET_BITS(UCSCTL2, 22);
 
     //MCLK enable to DCOCLK
     RESET_BITS(UCSCTL4, SELM_MASK);
