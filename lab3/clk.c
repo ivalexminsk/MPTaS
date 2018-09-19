@@ -69,8 +69,10 @@ void clk_toggle()
         //Vcore reconfigure to low-U
         //SET_BITS(PMMCTL0, BIT0);
         //RESET_BITS(PMMCTL0, BIT1);
-        set_vcore_down(2);
-        set_vcore_down(1);
+        set_vcore_up(2);
+        set_vcore_up(1);
+        // set_vcore_down(2);
+        // set_vcore_down(1);
     }
     else
     {
