@@ -47,3 +47,6 @@ typedef enum ccr_channels_t
   ccr_button = 1,
   ccr_shift = 2,
 } ccr_channels_t;
+
+#define VCORE_MIN 1
+#define VCORE_MAX 3

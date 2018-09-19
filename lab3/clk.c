@@ -45,8 +45,11 @@ void clk_init()
     SET_BITS(P7SEL, BIT7);
     SET_BITS(P7DIR, BIT7);
 
-    //set to minimum level
-    set_vcore_up(1);
+    //set to maximum level
+    for (unsigned int i = 1; i <= VCORE_MAX; i++)
+    {
+        set_vcore_up(i);
+    }
 }
 
 void clk_toggle()
@@ -64,14 +67,18 @@ void clk_toggle()
         SET_BITS(UCSCTL4, SELS_XT1CLK);
 
         //Vcore reconfigure to low-U
-        set_vcore_down(2);
-        set_vcore_down(1);
+        for (unsigned int i = (VCORE_MAX - 1); i >= VCORE_MIN; i--)
+        {
+            set_vcore_up(i);
+        }
     }
     else
     {
         //Vcore reconfigure to high-U
-        set_vcore_up(2);
-        set_vcore_up(3);
+        for (unsigned int i = (VCORE_MIN + 1); i <= VCORE_MAX; i++)
+        {
+            set_vcore_up(i);
+        }
 
         //MCLK reconf
         RESET_BITS(UCSCTL4, SELM_MASK);
