@@ -5,6 +5,7 @@
 #include "button.h"
 #include "AJIOB_regs_help.h"
 #include "interrupt_handlers.h"
+#include "adc_comparator.h"
 
 void timer_init()
 {
@@ -96,6 +97,13 @@ __interrupt void timer_b1_interrupt()
 {
   led_loggle(TIMER_LED);
   timer_b_interrupt_clear();
+}
+
+#pragma vector=COMP_B_VECTOR
+__interrupt void comparator_interrupt()
+{
+  //TODO:
+  comparator_interrupt_clear();
 }
 
 #define max_timer_value (0x10000)
