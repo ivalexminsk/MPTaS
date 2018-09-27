@@ -4,6 +4,7 @@
 #include "AJIOB_regs_help.h"
 #include "interrupt.h"
 #include "button.h"
+#include "adc_comparator.h"
 
 int main( void )
 {
@@ -14,6 +15,9 @@ int main( void )
 
   button_init(1);
   button_init(2);
+
+  adc_init();
+  comparator_init();
 
   for (int i = FIRST_LED; i <= LAST_LED; i++)
   {

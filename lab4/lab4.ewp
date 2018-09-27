@@ -2251,6 +2251,9 @@
     </settings>
   </configuration>
   <file>
+    <name>$PROJ_DIR$\adc_comparator.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\button.c</name>
   </file>
   <file>
