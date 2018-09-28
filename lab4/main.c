@@ -39,7 +39,8 @@ int main( void )
 
   timer_b_interrupt_enable();
   comparator_interrupt_enable();
-  __bis_SR_register(GIE);
+  adc_interrupt_enable();
+  __bis_SR_register(GIE + LPM0_bits);
 
   while(1);
 }
