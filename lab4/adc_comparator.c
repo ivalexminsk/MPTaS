@@ -89,7 +89,14 @@ void adc_interrupt_clear()
 
 void adc_output_parse()
 {
-    //TODO:
+    //channel 0 = temp
+    //channel 1 = potentiom
+    short val_temp = ADC12MEM0;
+    short val_potent = ADC12MEM1;
+    bool is_temp_higher = val_temp > val_potent;
+
+    set_led_state(TERMO_LED, is_temp_higher);
+    set_led_state(POTENTIOM_LED, !is_temp_higher);
 }
 
 void comparator_init()
