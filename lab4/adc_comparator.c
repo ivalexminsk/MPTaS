@@ -6,6 +6,43 @@
 
 void adc_init()
 {
+    adc_interrupt_disable();
+
+    //enable auto sampling (but need first SHI rising edge)
+    SET_BITS(ADC12CTL0, ADC12MSC);
+
+    //TODO:
+}
+
+void adc_interrupt_enable()
+{
+    //enable ADC convertion
+    SET_BITS(ADC12CTL0, ADC12ENC);
+
+    //enable ADC
+    SET_BITS(ADC12CTL0, ADC12ON);
+
+    //TODO:
+}
+
+void adc_interrupt_disable()
+{
+    //disable ADC
+    RESET_BITS(ADC12CTL0, ADC12ON);
+
+    //disable ADC convertion
+    RESET_BITS(ADC12CTL0, ADC12ENC);
+
+    //TODO:
+}
+
+void adc_interrupt_clear()
+{
+    //TODO:
+}
+
+void adc_output_parse()
+{
     //TODO:
 }
 

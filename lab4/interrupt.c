@@ -103,8 +103,14 @@ __interrupt void timer_b1_interrupt()
 __interrupt void comparator_interrupt()
 {
   comparator_output_parse();
-  //TODO:
   comparator_interrupt_clear();
+}
+
+#pragma vector=ADC12_VECTOR
+__interrupt void adc_interrupt()
+{
+  adc_output_parse();
+  adc_interrupt_clear();
 }
 
 #define max_timer_value (0x10000)
