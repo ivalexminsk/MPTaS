@@ -38,6 +38,7 @@ int main( void )
   /* Load end */
 
   timer_b_interrupt_enable();
+  comparator_interrupt_enable();
   __bis_SR_register(GIE);
 
   while(1);

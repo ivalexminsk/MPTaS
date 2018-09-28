@@ -95,13 +95,14 @@ __interrupt void timer_a1_interrupt()
 #pragma vector=TIMER0_B1_VECTOR
 __interrupt void timer_b1_interrupt()
 {
-  led_loggle(TIMER_LED);
+  //led_loggle(TIMER_LED);
   timer_b_interrupt_clear();
 }
 
 #pragma vector=COMP_B_VECTOR
 __interrupt void comparator_interrupt()
 {
+  comparator_output_parse();
   //TODO:
   comparator_interrupt_clear();
 }

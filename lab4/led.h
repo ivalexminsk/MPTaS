@@ -11,10 +11,8 @@ led_t calc_next_led(led_t led);
 
 void arifm_delay();
 
-#define MAIN_POWER_MODE_LED led1
-#define LOW_POWER_MODE_LED led3
+#define PAD3_LED led6
+#define PAD5_LED led8
 
-#define U_HIGH_LED led4
-#define U_LOW_LED led5
-
-#define TIMER_LED led8
+#define POTENTIOM_LED led3
+#define TERMO_LED led2
