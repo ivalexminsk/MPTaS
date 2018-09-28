@@ -66,7 +66,8 @@ void adc_interrupt_enable()
 
     //enable ADC convertion and start calc
     SET_BITS(ADC12CTL0, (ADC12ENC | ADC12SC));
-    //TODO:
+
+    adc_interrupt_clear();
 }
 
 void adc_interrupt_disable()
@@ -74,15 +75,13 @@ void adc_interrupt_disable()
     //disable ADC
     RESET_BITS(ADC12CTL0, ADC12ON);
 
-    //disable ADC convertion
-    RESET_BITS(ADC12CTL0, ADC12ENC);
-
-    //TODO:
+    //disable ADC convertion and reset start calc bit
+    RESET_BITS(ADC12CTL0, (ADC12ENC | ADC12SC));
 }
 
 void adc_interrupt_clear()
 {
-    //TODO:
+    RESET_BITS(ADC12IFG, ADC12IFG1);
 }
 
 void adc_output_parse()
