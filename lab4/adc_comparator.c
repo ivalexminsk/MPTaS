@@ -50,6 +50,8 @@ void adc_init()
     // channel 1 config (select temp as source)
     ///set channel 1 as last for adc
     SET_BITS(ADC12MCTL1, ADC12EOS);
+    ///enable channel 1 interrupts
+    SET_BITS(ADC12IE, ADC12INCH_1);
     ///select channel source
     RESET_BITS(ADC12MCTL1, ADC12INCH_15);
     SET_BITS(ADC12MCTL1, ADC12INCH_10);
@@ -59,15 +61,11 @@ void adc_init()
 
 void adc_interrupt_enable()
 {
-    //enable ADC convertion
-    SET_BITS(ADC12CTL0, ADC12ENC);
-
     //enable ADC
     SET_BITS(ADC12CTL0, ADC12ON);
 
-    //start calc
-    SET_BITS(ADC12CTL0, ADC12SC);
-
+    //enable ADC convertion and start calc
+    SET_BITS(ADC12CTL0, (ADC12ENC | ADC12SC));
     //TODO:
 }
 
