@@ -3,6 +3,7 @@
 #include "interrupt_handlers.h"
 #include "led.h"
 #include "button.h"
+#include "adc_comparator.h"
 
 int current_button_num = 1;
 bool led_state = false;
@@ -50,5 +51,20 @@ void timer_shift_callback()
 
 void button_universal_internal_exec()
 {
-	//TODO
+	if (current_button_num == 1)
+	{
+		//S1
+		adc_interrupt_disable();
+		set_led_state(POTENTIOM_LED, false);
+		set_led_state(TERMO_LED, false);
+		comparator_interrupt_enable();
+	}
+	else
+	{
+		//S2
+		comparator_interrupt_disable();
+		set_led_state(PAD3_LED, false);
+		set_led_state(PAD5_LED, false);
+		adc_interrupt_enable();
+	}
 }

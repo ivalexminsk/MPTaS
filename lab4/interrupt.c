@@ -78,12 +78,6 @@ __interrupt void timer_a1_interrupt()
 
   if (timer_interrupt_vector_read(val, ccr_button))
   {
-    //crunch: need to locale in interrupt handler:
-    if ((current_button_num == LPM_BUTTON)
-      && !button_read(current_button_num))
-    {
-      LPM1_EXIT;
-    }
     timer_button_callback();
   }
   if (timer_interrupt_vector_read(val, ccr_shift))
