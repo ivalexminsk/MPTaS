@@ -24,8 +24,10 @@ void spi_init()
     SET_BITS(P3SEL, BIT4);
     //// MOSI
     SET_BITS(P3SEL, BIT3);
+    SET_BITS(P3DIR, BIT3);
     //// SCK
     SET_BITS(P2SEL, BIT7);
+    SET_BITS(P2DIR, BIT7);
     //// interrupts
     //TODO:
     //// VCC (out, 1)
