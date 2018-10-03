@@ -3,6 +3,8 @@
 
 void spi_init()
 {
+    spi_disable();
+
     // set msb first
     SET_BITS(UCA0CTL0, UCMSB);
 
@@ -17,7 +19,8 @@ void spi_init()
     RESET_BITS(UCA0CTL0, BIT1);
 
     // set SMCLK as clock
-    SET_BITS(UCA0CTL1, (BIT7 | BIT6));
+    SET_BITS(UCA0CTL1, BIT7);
+    RESET_BITS(UCA0CTL1, BIT6);
 
     // No modulation
     UCA0MCTL = 0;
@@ -27,19 +30,23 @@ void spi_init()
     SET_BITS(P3SEL, BIT4);
     //// MOSI
     SET_BITS(P3SEL, BIT3);
-    SET_BITS(P3DIR, BIT3);
+    //SET_BITS(P3DIR, BIT3);
     //// SCK
     SET_BITS(P2SEL, BIT7);
-    SET_BITS(P2DIR, BIT7);
+    //SET_BITS(P2DIR, BIT7);
     //// interrupts
     //TODO:
-    //// VCC (out, 1)
-    SET_BITS(P3DIR, BIT6);
-    SET_BITS(P3OUT, BIT6);
     //// CS (out, 1)
     SET_BITS(P3DIR, BIT5);
     SET_BITS(P3OUT, BIT5);
-    
+
+    spi_enable();
+
+    // enable accelerometer power pins
+    //// VCC (out, 1)
+    SET_BITS(P3DIR, BIT6);
+    SET_BITS(P3OUT, BIT6);
+
     // set clock divider as 2 (0.7 MHz/2 for accelerometer)
     UCA0BR0 = 2;
     UCA0BR1 = 0;
@@ -113,9 +120,9 @@ void spi_send_recv(uint8_t* send_buff, int send_size, uint8_t* recv_buff, int re
         return;
     }
 
-    spi_enable();
+    //spi_enable();
     spi_cs_enable();
-    
+
     // start transmitting/receiving
     uint8_t to_send_now = 0;
     if (send_size_local)
@@ -134,7 +141,7 @@ void spi_send_recv(uint8_t* send_buff, int send_size, uint8_t* recv_buff, int re
     while(!is_data_ready);
 
     spi_cs_disable();
-    spi_disable();
+    //spi_disable();
 }
 
 #pragma vector=USCI_A0_VECTOR
