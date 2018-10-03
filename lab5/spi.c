@@ -19,6 +19,9 @@ void spi_init()
     // set SMCLK as clock
     SET_BITS(UCA0CTL1, (BIT7 | BIT6));
 
+    // No modulation
+    UCA0MCTL = 0;
+
     // enable accelerometer spi pins
     //// MISO
     SET_BITS(P3SEL, BIT4);
