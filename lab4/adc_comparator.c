@@ -118,6 +118,10 @@ void comparator_init()
     //Set comparator power mode to ultra low power
     SET_BITS(CBCTL1, BIT9);
     RESET_BITS(CBCTL1, BIT8);
+
+    //set other pads as input pullup
+    RESET_BITS(P6DIR, (BIT0 | BIT1 | BIT3));
+    SET_BITS(P6OUT, (BIT0 | BIT1 | BIT3));
 }
 
 void comparator_interrupt_enable()
