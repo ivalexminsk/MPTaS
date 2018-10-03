@@ -4,13 +4,17 @@
 #include "AJIOB_regs_help.h"
 #include "interrupt_timer.h"
 #include "button.h"
+#include "clk.h"
+#include "spi.h"
 
 int main( void )
 {
   // Stop watchdog timer to prevent time out reset
   WDTCTL = WDTPW + WDTHOLD;
 
+  clk_init();
   timer_init();
+  spi_init();
 
   button_init(1);
   button_init(2);
@@ -33,7 +37,12 @@ int main( void )
   }
   /* Load end */
 
-  __bis_SR_register(GIE + LPM0_bits);
+  __bis_SR_register(GIE);
+
+  spi_enable();
+  uint8_t in = 0x00;
+  uint8_t out = 0x00;
+  spi_send_recv(&in, 1, &out, 1);
 
   while(1);
 }

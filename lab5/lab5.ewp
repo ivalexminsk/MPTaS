@@ -2254,6 +2254,9 @@
     <name>$PROJ_DIR$\button.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\clk.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\interrupt_handlers.c</name>
   </file>
   <file>
@@ -2264,6 +2267,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\main.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\spi.c</name>
   </file>
 </project>
 

@@ -13,6 +13,8 @@ typedef int bool;
 #define true 1
 #define false 0
 
+typedef unsigned char uint8_t;
+
 typedef enum led_t
 {
   led1 = 0,
