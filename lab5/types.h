@@ -14,6 +14,7 @@ typedef int bool;
 #define false 0
 
 typedef unsigned char uint8_t;
+#define nullptr 0
 
 typedef enum led_t
 {

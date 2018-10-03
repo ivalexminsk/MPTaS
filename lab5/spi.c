@@ -19,55 +19,166 @@ void spi_init()
     // set SMCLK as clock
     SET_BITS(UCA0CTL1, (BIT7 | BIT6));
 
-    // set clock divider as 1
-    UCA0BR0 = 0;
+    // enable accelerometer spi pins
+    //// MISO
+    SET_BITS(P3SEL, BIT4);
+    //// MOSI
+    SET_BITS(P3SEL, BIT3);
+    //// SCK
+    SET_BITS(P2SEL, BIT7);
+    //// interrupts
+    //TODO:
+    //// VCC (out, 1)
+    SET_BITS(P3DIR, BIT6);
+    SET_BITS(P3OUT, BIT6);
+    //// CS (out, 1)
+    SET_BITS(P3DIR, BIT5);
+    SET_BITS(P3OUT, BIT5);
+    
+    // set clock divider as 2 (0.7 MHz/2 for accelerometer)
+    UCA0BR0 = 2;
     UCA0BR1 = 0;
+}
+
+void spi_rx_enable_int()
+{
+    SET_BITS(UCA0IE, UCRXIE);
+    RESET_BITS(UCA0IFG, UCRXIFG);
+}
+
+void spi_tx_enable_int()
+{
+    SET_BITS(UCA0IE, UCTXIE);
+    RESET_BITS(UCA0IFG, UCTXIFG);
+}
+
+void spi_rx_disable_int()
+{
+    RESET_BITS(UCA0IE, UCRXIE);
+}
+
+void spi_tx_disable_int()
+{
+    RESET_BITS(UCA0IE, UCTXIE);
+}
+
+void spi_cs_disable()
+{
+    SET_BITS(P3OUT, BIT5);
+}
+
+void spi_cs_enable()
+{
+    RESET_BITS(P3OUT, BIT5);
 }
 
 void spi_enable()
 {
     // enable spi
     RESET_BITS(UCA0CTL1, UCSWRST);
-
-    //enable interrupts
-    SET_BITS(UCA0IE, UCTXIE);
-    SET_BITS(UCA0IE, UCRXIE);
-
-    //reset flags
-    RESET_BITS(UCA0IFG, UCTXIFG);
-    RESET_BITS(UCA0IFG, UCRXIFG);
 }
 
 void spi_disable()
 {
-    UCA0IE = 0;
+    spi_tx_disable_int();
+    spi_rx_disable_int();
 
     // disable spi
     SET_BITS(UCA0CTL1, UCSWRST);
 }
 
-void spi_send_recv(uint8_t* in_buff, int in_size, uint8_t* out_buff, int out_size)
+bool is_data_ready = false;
+uint8_t* send_buff_local = nullptr;
+int send_size_local = 0;
+uint8_t* recv_buff_local = nullptr;
+int recv_size_local = 0;
+
+void spi_send_recv(uint8_t* send_buff, int send_size, uint8_t* recv_buff, int recv_size)
 {
-    //TODO:
+    is_data_ready = false;
+
+    send_buff_local = send_buff;
+    send_size_local = send_size;
+    recv_buff_local = recv_buff;
+    recv_size_local = recv_size;
+
+    if (!(send_size_local + recv_size_local))
+    {
+        //no data to recv/transmit
+        return;
+    }
+
+    spi_enable();
+    spi_cs_enable();
+    
+    // start transmitting/receiving
+    uint8_t to_send_now = 0;
+    if (send_size_local)
+    {
+        spi_tx_enable_int();
+        to_send_now = *send_buff_local;
+        send_buff_local++;
+        send_size_local--;
+    }
+    else
+    {
+        spi_rx_enable_int();
+    }
+    UCA0TXBUF = to_send_now;
+
+    while(!is_data_ready);
+
+    spi_cs_disable();
+    spi_disable();
 }
 
 #pragma vector=USCI_A0_VECTOR
 __interrupt void spi_interrupt()
 {
-    if (UCA0IFG & UCTXIFG)
-    {
-        //TX interrupt
-
-        //TODO:
-
-        RESET_BITS(UCA0IFG, UCTXIFG);
-    }
-    else if(UCA0IFG & UCRXIFG)
+    short value = UCA0IV;
+    if (value == 0x02)
     {
         //RX interrupt
 
-        //TODO:
+        *recv_buff_local = UCA0RXBUF;
+        recv_size_local--;
+        if (recv_size_local)
+        {
+            UCA0TXBUF = 0;
+            RESET_BITS(UCA0IFG, UCRXIFG);
+        }
+        else
+        {
+            spi_rx_disable_int();
+            is_data_ready = true;
+        }
+    }
+    else if(value == 0x04)
+    {
+        //TX interrupt
 
-        RESET_BITS(UCA0IFG, UCRXIFG);
+        if (send_size_local)
+        {
+            //send more data
+            UCA0TXBUF = *send_buff_local;
+            send_buff_local++;
+            send_size_local--;
+        }
+        else
+        {
+            spi_tx_disable_int();
+
+            if (recv_size_local)
+            {
+                spi_rx_enable_int();
+
+                //recv data
+                UCA0TXBUF = 0;
+            }
+            else
+            {
+                is_data_ready = true;
+            }
+        }
     }
 }
