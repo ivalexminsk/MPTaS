@@ -40,7 +40,8 @@ int main( void )
   __bis_SR_register(GIE);
 
   spi_enable();
-  uint8_t in = 0x01;
+  //try to get revision number
+  uint8_t in = 0x04;
   uint8_t out = 0x00;
   spi_send_recv(&in, 1, &out, 1);
 

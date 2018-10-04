@@ -25,6 +25,10 @@ void spi_init()
     // No modulation
     UCA0MCTL = 0;
 
+    // set clock divider as 2 (0.7 MHz/2 for accelerometer)
+    UCA0BR0 = 2;
+    UCA0BR1 = 0;
+
     // enable accelerometer spi pins
     //// MISO
     SET_BITS(P3SEL, BIT4);
@@ -34,8 +38,13 @@ void spi_init()
     //// SCK
     SET_BITS(P2SEL, BIT7);
     //SET_BITS(P2DIR, BIT7);
-    //// interrupts
-    //TODO:
+    //// interrupts (up -> down => interrupt)
+    RESET_BITS(P2DIR, BIT5);
+    SET_BITS(P2REN, BIT5);
+    SET_BITS(P2OUT, BIT5);
+    SET_BITS(P2IES, BIT5);
+    SET_BITS(P2IE, BIT5);
+    RESET_BITS(P2IFG, BIT5);
     //// CS (out, 1)
     SET_BITS(P3DIR, BIT5);
     SET_BITS(P3OUT, BIT5);
@@ -43,14 +52,12 @@ void spi_init()
     spi_enable();
 
     // enable accelerometer power pins
-    //// VCC (out, 1)
+    //// VCC (out, 1), more output current (I) enable
+    SET_BITS(P3DS, BIT6);
     SET_BITS(P3DIR, BIT6);
     SET_BITS(P3OUT, BIT6);
-
-    // set clock divider as 2 (0.7 MHz/2 for accelerometer)
-    UCA0BR0 = 2;
-    UCA0BR1 = 0;
 }
+
 
 void spi_rx_enable_int()
 {

@@ -67,7 +67,18 @@ __interrupt void port1_interrupt()
 #pragma vector=PORT2_VECTOR
 __interrupt void port2_interrupt()
 {
-  button2_callback();
+  short value = P2IV;
+  switch(value)
+  {
+  case 0x04:    //P2IFG.2
+    button2_callback();
+    break;
+  case 0x0C:    //P2IFG.5
+    //TODO: accelerometer interrupt
+    break;
+  default:
+    break;
+  }
 }
 
 #pragma vector=TIMER1_A1_VECTOR
