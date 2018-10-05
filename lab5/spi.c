@@ -149,10 +149,54 @@ void spi_send_recv(uint8_t* send_buff, int send_size, uint8_t* recv_buff, int re
     }
     UCA0TXBUF = to_send_now;
 
+    LPM0;
     while(!is_data_ready);
 
     spi_cs_disable();
     //spi_disable();
+}
+
+uint8_t accelerometer_read_reg(uint8_t reg)
+{
+    //to correct work with commands
+    reg <<= 2;
+
+    uint8_t res = 0x00;
+    spi_send_recv(&reg, 1, &res, 1);
+    return res;
+}
+
+void accelerometer_init()
+{
+    //INT_LEVEL = low
+    //I2C disabling
+    //motion detection
+    uint8_t ctrl_update[] = {0x02 << 2, 
+        (BIT6 | BIT4 | BIT3)
+    };
+
+    // minimum threshold
+    uint8_t motion_threshold_update[] = {0x09 << 2, 
+        (BIT1)
+    };
+
+    spi_send_recv(ctrl_update, (sizeof(ctrl_update) / sizeof(uint8_t)), nullptr, 0);
+
+    spi_send_recv(motion_threshold_update, (sizeof(motion_threshold_update) / sizeof(uint8_t)), nullptr, 0);
+}
+
+void accelerometer_interrupt_handle()
+{
+    uint8_t status = accelerometer_read_reg(0x05);
+
+    if ((status & 0x03) == 0x01)
+    {
+        //X-axis detection
+
+        //x axis value read
+        uint8_t x = accelerometer_read_reg(0x06);
+        //TODO: display print
+    }    
 }
 
 #pragma vector=USCI_A0_VECTOR
@@ -174,6 +218,7 @@ __interrupt void spi_interrupt()
         {
             spi_rx_disable_int();
             is_data_ready = true;
+            LPM0_EXIT;
         }
     }
     else if(value == 0x04)
@@ -201,6 +246,7 @@ __interrupt void spi_interrupt()
             else
             {
                 is_data_ready = true;
+                LPM0_EXIT;
             }
         }
     }

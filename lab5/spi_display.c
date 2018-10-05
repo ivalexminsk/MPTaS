@@ -71,3 +71,13 @@ void spi_display_disable()
     // disable spi
     SET_BITS(UCB1CTL1, UCSWRST);
 }
+
+void display_init()
+{
+    //TODO:
+}
+
+void display_update()
+{
+    //TODO:
+}

@@ -6,6 +6,7 @@
 #include "button.h"
 #include "clk.h"
 #include "spi.h"
+#include "spi_display.h"
 
 int main( void )
 {
@@ -40,11 +41,10 @@ int main( void )
 
   __bis_SR_register(GIE);
 
-  spi_enable();
-  //try to get revision number
-  uint8_t in = 0x04;
-  uint8_t out = 0x00;
-  spi_send_recv(&in, 1, &out, 1);
+  display_init();
+  accelerometer_init();
+
+  LPM0;
 
   while(1);
 }
