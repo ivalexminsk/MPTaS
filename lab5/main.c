@@ -15,6 +15,7 @@ int main( void )
   clk_init();
   timer_init();
   spi_init();
+  spi_display_init();
 
   button_init(1);
   button_init(2);

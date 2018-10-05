@@ -5,7 +5,7 @@ void spi_init()
 {
     spi_disable();
 
-    // set sync mode
+    // set sync mode (I2C or SPI)
     SET_BITS(UCA0CTL0, UCSYNC);
 
     // set msb first
@@ -16,6 +16,9 @@ void spi_init()
 
     // set master mode
     SET_BITS(UCA0CTL0, UCMST);
+
+    // set clock phase (data is captured on the first UCLK edge and changed on the following edge)
+    SET_BITS(UCA0CTL0, UCCKPH);
 
     // set 4SPI mode, ss - active = high
     RESET_BITS(UCA0CTL0, BIT2);
@@ -59,7 +62,6 @@ void spi_init()
     SET_BITS(P3DIR, BIT6);
     SET_BITS(P3OUT, BIT6);
 }
-
 
 void spi_rx_enable_int()
 {

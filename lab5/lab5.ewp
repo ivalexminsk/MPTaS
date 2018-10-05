@@ -2271,6 +2271,9 @@
   <file>
     <name>$PROJ_DIR$\spi.c</name>
   </file>
+  <file>
+    <name>$PROJ_DIR$\spi_display.c</name>
+  </file>
 </project>
 
 
