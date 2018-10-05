@@ -5,6 +5,9 @@ void spi_init()
 {
     spi_disable();
 
+    // set sync mode
+    SET_BITS(UCA0CTL0, UCSYNC);
+
     // set msb first
     SET_BITS(UCA0CTL0, UCMSB);
 
@@ -14,9 +17,9 @@ void spi_init()
     // set master mode
     SET_BITS(UCA0CTL0, UCMST);
 
-    // set 4SPI mode, ss - active = low
-    SET_BITS(UCA0CTL0, BIT2);
-    RESET_BITS(UCA0CTL0, BIT1);
+    // set 4SPI mode, ss - active = high
+    RESET_BITS(UCA0CTL0, BIT2);
+    SET_BITS(UCA0CTL0, BIT1);
 
     // set SMCLK as clock
     SET_BITS(UCA0CTL1, BIT7);
@@ -52,8 +55,7 @@ void spi_init()
     spi_enable();
 
     // enable accelerometer power pins
-    //// VCC (out, 1), more output current (I) enable
-    SET_BITS(P3DS, BIT6);
+    //// VCC (out, 1)
     SET_BITS(P3DIR, BIT6);
     SET_BITS(P3OUT, BIT6);
 }
