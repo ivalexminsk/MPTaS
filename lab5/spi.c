@@ -149,7 +149,8 @@ void spi_send_recv(uint8_t* send_buff, int send_size, uint8_t* recv_buff, int re
     }
     UCA0TXBUF = to_send_now;
 
-    LPM0;
+    GIE_ENABLE;
+
     while(!is_data_ready);
 
     spi_cs_disable();

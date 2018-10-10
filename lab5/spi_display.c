@@ -16,6 +16,8 @@ void spi_display_init()
 
     // set master mode
     SET_BITS(UCB1CTL0, UCMST);
+    // set clock phase (data is captured on the first UCLK edge and changed on the following edge)
+    SET_BITS(UCB1CTL0, UCCKPH);
 
     // set 3SPI mode
     RESET_BITS(UCB1CTL0, BIT2);
@@ -58,18 +60,51 @@ void spi_display_init()
     SET_BITS(P5OUT, BIT7);
 }
 
+void spi_display_tx_enable_int()
+{
+    SET_BITS(UCB1IE, UCRXIE);
+    RESET_BITS(UCB1IFG, UCRXIFG);
+}
+
+void spi_display_tx_disable_int()
+{
+    RESET_BITS(UCB1IE, UCRXIE);
+}
+
 void spi_display_enable()
 {
     // enable spi
     RESET_BITS(UCB1CTL1, UCSWRST);
+
+    spi_display_tx_enable_int();
 }
 
 void spi_display_disable()
 {
-    //TODO: disable interrupts
+    spi_display_tx_disable_int();
 
     // disable spi
     SET_BITS(UCB1CTL1, UCSWRST);
+}
+
+void spi_display_cs_disable()
+{
+    SET_BITS(P7OUT, BIT4);
+}
+
+void spi_display_cs_enable()
+{
+    RESET_BITS(P7OUT, BIT4);
+}
+
+void spi_display_command_mode_enable()
+{
+    RESET_BITS(P7OUT, BIT4);
+}
+
+void spi_display_data_mode_enable()
+{
+    SET_BITS(P7OUT, BIT4);
 }
 
 void display_init()
