@@ -171,12 +171,12 @@ void accelerometer_init()
     //INT_LEVEL = low
     //I2C disabling
     //motion detection
-    uint8_t ctrl_update[] = {0x02 << 2, 
+    uint8_t ctrl_update[] = {(0x02 << 2) | BIT1,
         (BIT6 | BIT4 | BIT3)
     };
 
     // minimum threshold
-    uint8_t motion_threshold_update[] = {0x09 << 2, 
+    uint8_t motion_threshold_update[] = {(0x09 << 2) | BIT1,
         (BIT1)
     };
 
@@ -187,6 +187,8 @@ void accelerometer_init()
 
 void accelerometer_interrupt_handle()
 {
+    RESET_BITS(P2IFG, BIT5);
+
     uint8_t status = accelerometer_read_reg(0x05);
 
     if ((status & 0x03) == 0x01)

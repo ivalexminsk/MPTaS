@@ -5,6 +5,7 @@
 #include "button.h"
 #include "AJIOB_regs_help.h"
 #include "interrupt_handlers.h"
+#include "spi.h"
 
 void timer_init()
 {
@@ -74,7 +75,7 @@ __interrupt void port2_interrupt()
     button2_callback();
     break;
   case 0x0C:    //P2IFG.5
-    //TODO: accelerometer interrupt
+    accelerometer_interrupt_handle();
     break;
   default:
     break;

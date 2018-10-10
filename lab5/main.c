@@ -39,7 +39,7 @@ int main( void )
   }
   /* Load end */
 
-  __bis_SR_register(GIE);
+  GIE_ENABLE;
 
   display_init();
   accelerometer_init();
