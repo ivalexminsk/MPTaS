@@ -44,6 +44,8 @@ int main( void )
   display_init();
   accelerometer_init();
 
+  set_led_state(GOOD_LED, true);
+
   LPM0;
 
   while(1);

@@ -11,8 +11,5 @@ led_t calc_next_led(led_t led);
 
 void arifm_delay();
 
-#define PAD3_LED led6
-#define PAD5_LED led8
-
-#define POTENTIOM_LED led3
-#define TERMO_LED led2
+#define ERROR_LED led1
+#define GOOD_LED led3

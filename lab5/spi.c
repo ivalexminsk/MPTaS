@@ -1,5 +1,6 @@
 #include "spi.h"
 #include "AJIOB_regs_help.h"
+#include "led.h"
 
 void spi_init()
 {
@@ -167,30 +168,48 @@ uint8_t accelerometer_read_reg(uint8_t reg)
     return res;
 }
 
+void accelerometer_write_reg(uint8_t reg, uint8_t value)
+{
+    //to correct work with commands (with write mode select)
+    reg <<= 2;
+    reg |= BIT1;
+
+    uint8_t to_write[] = {reg, value};
+
+    spi_send_recv(to_write, sizeof(to_write) / sizeof(to_write[0]), nullptr, 0);
+}
+
+#define ACCEL_ASSERT(_REG_, _VALUE_)                                        \
+    if (accelerometer_read_reg(_REG_) != (_VALUE_))                         \
+    {                                                                       \
+        set_led_state(ERROR_LED, true);                                     \
+        while(true);                                                        \
+    }                                                                       \
+
 void accelerometer_init()
 {
+    //check WHO_AM_I and REVID
+    ACCEL_ASSERT(REG_WHO_AM_I, REQUIRED_WHO_AM_I);
+    ACCEL_ASSERT(REG_REV_ID, REQUIRED_REVID);
+
     //INT_LEVEL = low
     //I2C disabling
     //motion detection
-    uint8_t ctrl_update[] = {(0x02 << 2) | BIT1,
-        (BIT6 | BIT4 | BIT3)
-    };
+    uint8_t ctrl_new_value = (BIT6 | BIT4 | BIT3);
+    accelerometer_write_reg(REG_CTRL, ctrl_new_value);
+    ACCEL_ASSERT(REG_CTRL, ctrl_new_value);
 
     // minimum threshold
-    uint8_t motion_threshold_update[] = {(0x09 << 2) | BIT1,
-        (BIT1)
-    };
-
-    spi_send_recv(ctrl_update, (sizeof(ctrl_update) / sizeof(uint8_t)), nullptr, 0);
-
-    spi_send_recv(motion_threshold_update, (sizeof(motion_threshold_update) / sizeof(uint8_t)), nullptr, 0);
+    uint8_t motion_threshold_new_value = (BIT1);
+    accelerometer_write_reg(REG_MOTION_THRESHILD, motion_threshold_new_value);
+    ACCEL_ASSERT(REG_MOTION_THRESHILD, motion_threshold_new_value);
 }
 
 void accelerometer_interrupt_handle()
 {
     RESET_BITS(P2IFG, BIT5);
 
-    uint8_t status = accelerometer_read_reg(0x05);
+    uint8_t status = accelerometer_read_reg(REG_INT_STATUS);
 
     if ((status & 0x03) == 0x01)
     {
@@ -199,7 +218,7 @@ void accelerometer_interrupt_handle()
         //x axis value read
         uint8_t x = accelerometer_read_reg(0x06);
         //TODO: display print
-    }    
+    }
 }
 
 #pragma vector=USCI_A0_VECTOR
@@ -221,7 +240,6 @@ __interrupt void spi_interrupt()
         {
             spi_rx_disable_int();
             is_data_ready = true;
-            LPM0_EXIT;
         }
     }
     else if(value == 0x04)
@@ -249,7 +267,6 @@ __interrupt void spi_interrupt()
             else
             {
                 is_data_ready = true;
-                LPM0_EXIT;
             }
         }
     }
