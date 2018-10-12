@@ -32,8 +32,8 @@ void spi_init()
     // No modulation
     UCA0MCTL = 0;
 
-    // set clock divider as 2 (0.7 MHz/2 for accelerometer)
-    UCA0BR0 = 2;
+    // set clock divider as 20 (8 MHz/20 = 400kHz for accelerometer)
+    UCA0BR0 = 5;
     UCA0BR1 = 0;
 
     // enable accelerometer spi pins
