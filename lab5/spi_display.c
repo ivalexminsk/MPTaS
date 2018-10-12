@@ -1,5 +1,6 @@
 #include "spi_display.h"
 #include "AJIOB_regs_help.h"
+#include "led.h"
 
 void spi_display_init()
 {
@@ -49,9 +50,12 @@ void spi_display_init()
     //// RST (out, 0 = rst)
     SET_BITS(P5DIR, BIT7);
     RESET_BITS(P5OUT, BIT7);
-    //// CD (0 = read, 1 = write)
+    //// CD (0 = command, 1 = data)
     SET_BITS(P5DIR, BIT6);
     RESET_BITS(P5OUT, BIT6);
+    //// BackLight (0 = off, 1 = on)
+    SET_BITS(P7DIR, BIT6);
+    SET_BITS(P7OUT, BIT6);
 
     spi_display_enable();
 
