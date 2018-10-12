@@ -156,6 +156,25 @@ void display_init()
     //TODO:
 }
 
+void display_write_data(uint8_t data)
+{
+    spi_display_data_mode_enable();
+    
+    spi_display_send(&data, 1);
+
+    spi_display_command_mode_enable();
+}
+
+void display_clear_full()
+{
+    //TODO:
+}
+
+void display_clear_part(uint8_t row_page, uint8_t column)
+{
+    //TODO:
+}
+
 bool display_is_data_ready = false;
 uint8_t* display_send_buff_local = nullptr;
 int display_send_size_local = 0;
@@ -190,7 +209,7 @@ void spi_display_send(uint8_t* send_buff, int send_size)
     spi_display_cs_disable();
 }
 
-void display_update()
+void display_update(uint8_t new_value)
 {
     //TODO:
 }
