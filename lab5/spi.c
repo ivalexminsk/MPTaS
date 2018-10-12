@@ -189,7 +189,7 @@ void accelerometer_write_reg(uint8_t reg, uint8_t value)
 void accelerometer_init()
 {
     //check WHO_AM_I and REVID
-    ACCEL_ASSERT(REG_WHO_AM_I, REQUIRED_WHO_AM_I);
+    //ACCEL_ASSERT(REG_WHO_AM_I, REQUIRED_WHO_AM_I);    /* Different on few boards */
     ACCEL_ASSERT(REG_REV_ID, REQUIRED_REVID);
 
     //INT_LEVEL = low
