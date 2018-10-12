@@ -154,6 +154,7 @@ void display_init()
     spi_display_send(&display_enable, 1);
 
     //TODO:
+    display_clear_full();
 }
 
 void display_write_data(uint8_t data)
@@ -167,12 +168,27 @@ void display_write_data(uint8_t data)
 
 void display_clear_full()
 {
-    //TODO:
+    for (int i = 0; i < DISPLAY_ROW_PAGES; i++)
+    {
+        for (int j = 0; j < DISPLAY_COLUMNS; j++)
+        {
+            display_clear_part(i, j);
+        }
+    }
 }
 
 void display_clear_part(uint8_t row_page, uint8_t column)
 {
-    //TODO:
+    uint8_t page_select_command = 0xB0 | (row_page & 0x0F);
+    spi_display_send(&page_select_command, 1);
+
+    uint8_t colunm_select_high = 0x10 | ((column & 0xF0) >> 4);
+    spi_display_send(&colunm_select_high, 1);
+
+    uint8_t colunm_select_low = 0x00 | (column & 0x0F);
+    spi_display_send(&colunm_select_low, 1);
+
+    display_write_data(DISPLAY_EMPTY_BYTE);
 }
 
 bool display_is_data_ready = false;

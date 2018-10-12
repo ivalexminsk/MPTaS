@@ -23,3 +23,8 @@ void display_write_data(uint8_t data);
 void display_clear_full();
 void display_clear_part(uint8_t row_page, uint8_t column);
 void display_update(uint8_t new_value);
+
+#define DISPLAY_EMPTY_BYTE  0x00
+
+#define DISPLAY_ROW_PAGES   8
+#define DISPLAY_COLUMNS     132
