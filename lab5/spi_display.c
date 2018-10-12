@@ -6,7 +6,7 @@ void spi_display_init()
     spi_display_disable();
 
     // set sync mode (I2C or SPI)
-    SET_BITS(UCA0CTL0, UCSYNC);
+    SET_BITS(UCB1CTL0, UCSYNC);
 
     // set msb first
     SET_BITS(UCB1CTL0, UCMSB);
@@ -109,10 +109,113 @@ void spi_display_data_mode_enable()
 
 void display_init()
 {
+    //Start line as 0
+    uint8_t scroll_line = 0x40;
+    spi_display_send(&scroll_line, 1);
+
+    // SEG reverce (6 o'clock)
+    uint8_t seg_direction = 0xA1;
+    spi_display_send(&seg_direction, 1);
+
+    // COM no reverce
+    uint8_t com_direction = 0xC0;
+    spi_display_send(&com_direction, 1);
+
+    // Show sram content
+    uint8_t enable_sram = 0xA4;
+    spi_display_send(&enable_sram, 1);
+
+    // Show sram content in not inverse mode
+    uint8_t sram_not_inverse = 0xA6;
+    spi_display_send(&sram_not_inverse, 1);
+
+    // Set LCD Bias 1/9 (duty 1/65)
+    uint8_t lcd_bias = 0xA2;
+    spi_display_send(&lcd_bias, 1);
+
+    // Power Control (Booster, Regularot, Follower on)
+    uint8_t power_control = 0x2F;
+    spi_display_send(&power_control, 1);
+
+    // Set display contrast
+    uint8_t display_contrast[] = {0x81, 0x10};
+    spi_display_send(display_contrast, sizeof(display_contrast) / sizeof(display_contrast[0]));
+
+    // Set row/column wrap around to off, temp comp = -0,11%/degree C
+    uint8_t wrap_around_off[] = {0xFA, 0x90};
+    spi_display_send(wrap_around_off, sizeof(wrap_around_off) / sizeof(wrap_around_off[0]));
+
+    // Display enable
+    uint8_t display_enable = 0xAF;
+    spi_display_send(&display_enable, 1);
+
     //TODO:
+}
+
+bool display_is_data_ready = false;
+uint8_t* display_send_buff_local = nullptr;
+int display_send_size_local = 0;
+
+void spi_display_send(uint8_t* send_buff, int send_size)
+{
+    display_is_data_ready = false;
+
+    display_send_buff_local = send_buff;
+    display_send_size_local = send_size;
+
+    if (!(display_send_size_local))
+    {
+        //no data to recv/transmit
+        return;
+    }
+
+    spi_display_cs_enable();
+
+    // start transmitting/receiving
+    spi_display_tx_enable_int();
+    uint8_t to_send_now = *display_send_buff_local;
+    display_send_buff_local++;
+    display_send_size_local--;
+
+    UCB1TXBUF = to_send_now;
+
+    GIE_ENABLE;
+
+    while(!display_is_data_ready);
+
+    spi_display_cs_disable();
 }
 
 void display_update()
 {
     //TODO:
+}
+
+#pragma vector=USCI_B1_VECTOR
+__interrupt void spi_display_interrupt()
+{
+    short value = UCB1IV;
+    if (value == 0x02)
+    {
+        //RX interrupt
+        //not used
+    }
+    else if(value == 0x04)
+    {
+        //TX interrupt
+
+        if (display_send_size_local)
+        {
+            //send more data
+            UCB1TXBUF = *display_send_buff_local;
+            display_send_buff_local++;
+            display_send_size_local--;
+        }
+        else
+        {
+            spi_display_tx_disable_int();
+
+            display_is_data_ready = true;
+        }
+    }
 }
