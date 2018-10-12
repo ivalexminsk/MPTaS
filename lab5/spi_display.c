@@ -103,12 +103,12 @@ void spi_display_cs_enable()
 
 void spi_display_command_mode_enable()
 {
-    RESET_BITS(P7OUT, BIT4);
+    RESET_BITS(P5OUT, BIT6);
 }
 
 void spi_display_data_mode_enable()
 {
-    SET_BITS(P7OUT, BIT4);
+    SET_BITS(P5OUT, BIT6);
 }
 
 void display_init()
@@ -140,6 +140,10 @@ void display_init()
     // Power Control (Booster, Regularot, Follower on)
     uint8_t power_control = 0x2F;
     spi_display_send(&power_control, 1);
+
+    // VLCD Resistor ratio
+    uint8_t vlcd_resistor_ratio = 0x27;
+    spi_display_send(&vlcd_resistor_ratio, 1);
 
     // Set display contrast
     uint8_t display_contrast[] = {0x81, 0x10};
@@ -216,9 +220,9 @@ void spi_display_send(uint8_t* send_buff, int send_size)
     display_send_buff_local++;
     display_send_size_local--;
 
-    UCB1TXBUF = to_send_now;
-
     GIE_ENABLE;
+
+    UCB1TXBUF = to_send_now;
 
     while(!display_is_data_ready);
 
