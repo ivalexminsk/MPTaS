@@ -62,13 +62,13 @@ void spi_display_init()
 
 void spi_display_tx_enable_int()
 {
-    SET_BITS(UCB1IE, UCRXIE);
-    RESET_BITS(UCB1IFG, UCRXIFG);
+    SET_BITS(UCB1IE, UCTXIE);
+    RESET_BITS(UCB1IFG, UCTXIFG);
 }
 
 void spi_display_tx_disable_int()
 {
-    RESET_BITS(UCB1IE, UCRXIE);
+    RESET_BITS(UCB1IE, UCTXIE);
 }
 
 void spi_display_enable()
