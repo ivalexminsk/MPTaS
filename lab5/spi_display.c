@@ -158,7 +158,6 @@ void display_init()
     uint8_t display_enable = 0xAF;
     spi_display_send(&display_enable, 1);
 
-    //TODO:
     display_clear_full();
 }
 
@@ -237,12 +236,16 @@ void spi_display_send(uint8_t* send_buff, int send_size)
 
 void display_mirror_on()
 {
-    //TODO:
+    // SEG no reverce (12 o'clock)
+    uint8_t seg_direction = 0xA0;
+    spi_display_send(&seg_direction, 1);
 }
 
 void display_mirror_off()
 {
-    //TODO:
+    // SEG reverce (6 o'clock)
+    uint8_t seg_direction = 0xA1;
+    spi_display_send(&seg_direction, 1);
 }
 
 void display_digit_print(uint8_t new_value, uint8_t index, bool is_for_mirror, bool is_clear)
