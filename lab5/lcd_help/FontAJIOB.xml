@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data type="font" name="FontAJIOB">
+    <family>Fipps</family>
+    <size>8</size>
+    <ascent>18</ascent>
+    <descent>1</descent>
+    <style>Normal</style>
+    <widthType>monospaced</widthType>
+    <antialiasing>false</antialiasing>
+    <foreground>ff000000</foreground>
+    <background>ffffffff</background>
+    <string>0123456789</string>
+    <converted>D:/Program Files Portable/lcd-image-converter/projects/FontAJIOB.h</converted>
+    <chars>
+        <char code="0030" character="0">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAARElEQVQYlb2QMQ7AMAwCj/z/z9ehTUSToVuRPBiDjRxVgCQ0Hpoxh+qqNuQW+9rQ/eADPwgCOIMtsgJHdf/BcaLdDZULRpclAcJU2SAAAAAASUVORK5CYII=</picture>
+        </char>
+        <char code="0031" character="1">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAN0lEQVQYlb2OMQ4AMAgCwf//mU4kVulaRu8kUJLQQhIA4HNNaGCxEuxZDU8hfa+GT8Iceglp6AFcGhMT5qOsIQAAAABJRU5ErkJggg==</picture>
+        </char>
+        <char code="0032" character="2">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAASklEQVQYlX2PSQ7AMAgDh6j///L0EFFBROMTkhfsUI0ITqgAxL5tZBrULZjcKVoqZ0LFurlVnvz5lSpkK/m3ZFxRk8YVreRtAcALRcoy9tllmgUAAAAASUVORK5CYII=</picture>
+        </char>
+        <char code="0033" character="3">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAASUlEQVQYlX2PQQ4AIAjDNv//53ogoBKVE4E2MAPYVi9AkuToOZYpAAHc7IRGt3uN/R5w2EAA+23b60E7gFuKkn4pCnjZwDtFzieeFzH5iPaanwAAAABJRU5ErkJggg==</picture>
+        </char>
+        <char code="0034" character="4">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAIAAAAGpYjXAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANUlEQVQImXWNQQoAMAzC0tH/f9ndVjvQi0JEkQQAkjybsfIhKIL+FqLmI3XbW1UVzx9bwGcvIvIg+E2n3M4AAAAASUVORK5CYII=</picture>
+        </char>
+        <char code="0035" character="5">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQ0lEQVQYlX2OWwoAIBACx+j+V7aPHtC2rT+CiI4A85FtNP3tSAKgxyCqp+maB/KLvXYYUrhVahngtVZdnEIF+r3Y+QAizCb7LdeH8AAAAABJRU5ErkJggg==</picture>
+        </char>
+        <char code="0036" character="6">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAT0lEQVQYlX2PSQ6AMAwDx6j///JwKIFQUSzl4sRLogqQhI6L5qilek8XjFquDoXxRZbL66CT5aY+Bz2iIpPMkn8I4C4CIKq7D9QZ0dVr6RM7EzALJtjfSwAAAABJRU5ErkJggg==</picture>
+        </char>
+        <char code="0037" character="7">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAARElEQVQYlX2OQQ4AIAjDHOH/X64HoyKiuxAyOiYASa0S0DQmlzkhj0skpzwukkZsAOxnAvugKrgSKvp68Sp5dKhkmcjqpswmD/yiRVcAAAAASUVORK5CYII=</picture>
+        </char>
+        <char code="0038" character="8">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAARElEQVQYlbWQOQ4AMQwCB///z5NiD5E0Wy2SC4MByVEFSELjpplHVN9pQ65jt4Tehw8EsDs7Xv27AiCq5w+6ak53iwAL0qQ19x/1YmwAAAAASUVORK5CYII=</picture>
+        </char>
+        <char code="0039" character="9">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAR0lEQVQYlY2OUQrAMAxCNfT+V3792DIstKyCHzFGYwBJsq3EK6t6CXzMAz9mloScSz8YWbFDZWdzMeTH1xWZMnZiAzhXtDYBAEUsEUb0rmEAAAAASUVORK5CYII=</picture>
+        </char>
+    </chars>
+</data>
