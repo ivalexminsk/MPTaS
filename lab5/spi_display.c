@@ -248,9 +248,19 @@ void display_mirror_off()
     spi_display_send(&seg_direction, 1);
 }
 
-void display_digit_print(uint8_t new_value, uint8_t index, bool is_for_mirror, bool is_clear)
+void display_digit_print(uint8_t digit, uint8_t index, bool is_for_mirror, bool is_clear)
 {
-    //TODO:
+    for (uint8_t i = 0; i < SYMBOL_ROW_PAGES; i++)
+    {
+        uint8_t i_real = i + index * SYMBOL_ROW_PAGES;
+        for (uint8_t j = 0; j < SYMBOL_COLUMNS; j++)
+        {
+            uint8_t j_real = j + (is_for_mirror ? SYMBOL_COLUMN_ALTER : 0);
+            uint8_t val_real = (is_clear ? DISPLAY_EMPTY_BYTE : FontAJIOB_array[digit][i * SYMBOL_COLUMNS + j]);
+
+            display_write_image_sector(i_real, j_real, val_real);
+        }
+    }
 }
 
 void display_update(uint8_t new_value)

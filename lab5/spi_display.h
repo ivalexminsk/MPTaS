@@ -17,7 +17,7 @@ void spi_display_data_mode_enable();
 
 void spi_display_send(uint8_t* send_buff, int send_size);
 
-void display_digit_print(uint8_t new_value, uint8_t index, bool is_for_mirror, bool is_clear);
+void display_digit_print(uint8_t digit, uint8_t index, bool is_for_mirror, bool is_clear);
 void display_mirror_on();
 void display_mirror_off();
 
@@ -36,6 +36,7 @@ void display_update(uint8_t new_value);
 
 #define SYMBOL_ROW_PAGES    1
 #define SYMBOL_COLUMNS      10
+#define SYMBOL_COLUMN_ALTER 30
 #define SYMBOLS_ALL         3
 #define NO_MIRROR_MAX       0x7F
 #define NUM_DIGITS          10
