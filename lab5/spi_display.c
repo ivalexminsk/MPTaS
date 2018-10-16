@@ -1,6 +1,7 @@
 #include "spi_display.h"
 #include "AJIOB_regs_help.h"
 #include "led.h"
+#include "FontAJIOB.h"
 
 void spi_display_init()
 {
@@ -164,7 +165,7 @@ void display_init()
 void display_write_data(uint8_t data)
 {
     spi_display_data_mode_enable();
-    
+
     spi_display_send(&data, 1);
 
     spi_display_command_mode_enable();
@@ -183,6 +184,11 @@ void display_clear_full()
 
 void display_clear_part(uint8_t row_page, uint8_t column)
 {
+    display_write_image_sector(row_page, column, DISPLAY_EMPTY_BYTE);
+}
+
+void display_write_image_sector(uint8_t row_page, uint8_t column, uint8_t value)
+{
     uint8_t page_select_command = 0xB0 | (row_page & 0x0F);
     spi_display_send(&page_select_command, 1);
 
@@ -192,7 +198,7 @@ void display_clear_part(uint8_t row_page, uint8_t column)
     uint8_t colunm_select_low = 0x00 | (column & 0x0F);
     spi_display_send(&colunm_select_low, 1);
 
-    display_write_data(DISPLAY_EMPTY_BYTE);
+    display_write_data(value);
 }
 
 bool display_is_data_ready = false;
@@ -229,9 +235,61 @@ void spi_display_send(uint8_t* send_buff, int send_size)
     spi_display_cs_disable();
 }
 
-void display_update(uint8_t new_value)
+void display_mirror_on()
 {
     //TODO:
+}
+
+void display_mirror_off()
+{
+    //TODO:
+}
+
+void display_digit_print(uint8_t new_value, uint8_t index, bool is_for_mirror, bool is_clear)
+{
+    //TODO:
+}
+
+void display_update(uint8_t new_value)
+{
+    static uint8_t old_value = 255;
+    static bool old_mirror = false;
+
+    bool new_mirror = (new_value > NO_MIRROR_MAX);
+
+    if (old_value != new_value)
+    {
+        if (old_mirror != new_mirror)
+        {
+            //clear old
+            for (uint8_t i = 0; i < SYMBOLS_ALL; i++)
+            {
+                display_digit_print(0, i, old_mirror, true);
+            }
+
+            //set new mirror
+            if (new_mirror)
+            {
+                display_mirror_on();
+            }
+            else
+            {
+                display_mirror_off();
+            }
+        }
+
+        uint8_t to_write = new_value;
+
+        //(re-)write new value
+        for (int8_t i = SYMBOLS_ALL - 1; i >= 0; i--)
+        {
+            display_digit_print(to_write % NUM_DIGITS, i, new_mirror, false);
+            to_write /= NUM_DIGITS;
+        }
+    }
+
+    old_value = new_value;
+    old_mirror = new_mirror;
 }
 
 #pragma vector=USCI_B1_VECTOR
