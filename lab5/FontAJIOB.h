@@ -6,7 +6,7 @@
 * family: Fipps
 * size: 8
 * style: Normal
-* included characters: 0123456789
+* included characters: 0123456789+-
 * antialiasing: no
 * type: monospaced
 * encoding: CP1251
@@ -29,6 +29,32 @@
 #include <stdint.h>
 
 
+
+static const uint8_t image_data_FontAJIOB_0x2b[10] = {
+    0x00, 
+    0x00, 
+    0x18, 
+    0x34, 
+    0x62, 
+    0x76, 
+    0x3c, 
+    0x18, 
+    0x00, 
+    0x00
+};
+
+static const uint8_t image_data_FontAJIOB_0x2d[10] = {
+    0x00, 
+    0x00, 
+    0x00, 
+    0x3c, 
+    0x62, 
+    0x7e, 
+    0x7c, 
+    0x00, 
+    0x00, 
+    0x00
+};
 
 static const uint8_t image_data_FontAJIOB_0x30[10] = {
     0x3c, 
@@ -162,6 +188,12 @@ static const uint8_t image_data_FontAJIOB_0x39[10] = {
 
 
 static const uint8_t* FontAJIOB_array[] = {
+
+  // character: '+'
+  image_data_FontAJIOB_0x2b,
+
+  // character: '-'
+  image_data_FontAJIOB_0x2d,
 
   // character: '0'
   image_data_FontAJIOB_0x30,

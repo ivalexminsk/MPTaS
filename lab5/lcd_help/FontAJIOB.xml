@@ -9,7 +9,7 @@
     <antialiasing>false</antialiasing>
     <foreground>ff000000</foreground>
     <background>ffffffff</background>
-    <string>0123456789</string>
+    <string>0123456789+-</string>
     <converted>D:/Program Files Portable/lcd-image-converter/projects/FontAJIOB.h</converted>
     <chars>
         <char code="0030" character="0">
@@ -41,6 +41,12 @@
         </char>
         <char code="0039" character="9">
             <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAR0lEQVQYlY2OUQrAMAxCNfT+V3792DIstKyCHzFGYwBJsq3EK6t6CXzMAz9mloScSz8YWbFDZWdzMeTH1xWZMnZiAzhXtDYBAEUsEUb0rmEAAAAASUVORK5CYII=</picture>
+        </char>
+        <char code="002b" character="+">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQElEQVQYlYWQQQoAMAjDjOz/X3Ynh+vEeZI2VigRETaMT+YDAAb0AGD5rUKupkJXgl4foItOzVXQfdW4rpJvDxtRfBwVUKl+EgAAAABJRU5ErkJggg==</picture>
+        </char>
+        <char code="002d" character="-">
+            <picture format="png">iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAYAAACJxx+AAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAN0lEQVQYlWP8////fwY8gAmfJFEKWGAMRkZGFAmYzUwwyf///8MxsgacJqC4AZ9H4CbgUkS5NwGNJhYQS+2HIgAAAABJRU5ErkJggg==</picture>
         </char>
     </chars>
 </data>
