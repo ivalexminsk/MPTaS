@@ -294,7 +294,7 @@ void display_update(uint8_t new_value)
             }
         }
 
-        bool minus_sign = (new_mirror > NO_MIRROR_MAX);
+        bool minus_sign = (new_value > NO_MIRROR_MAX);
 
         //(re-)print sign
         display_digit_print(minus_sign ? (SYMBOL_MINUS_INDEX) : (SYMBOL_PLUS_INDEX), 0, new_mirror, false);
