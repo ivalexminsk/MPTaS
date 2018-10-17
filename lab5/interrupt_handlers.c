@@ -3,6 +3,7 @@
 #include "interrupt_handlers.h"
 #include "led.h"
 #include "button.h"
+#include "spi_display.h"
 
 int current_button_num = 1;
 bool led_state = false;
@@ -10,7 +11,7 @@ bool led_state = false;
 void button_main_callback()
 {
 	button_interrupt_disable(1);
-	button_interrupt_disable(2);
+	// button_interrupt_disable(2);
 
 	timer_interrupt_enable(ccr_button);
 }
@@ -53,6 +54,7 @@ void button_universal_internal_exec()
 	if (current_button_num == 1)
 	{
 		//S1
+		is_need_to_change_mirror = true;
 	}
 	else
 	{

@@ -29,6 +29,8 @@ void display_clear_part(uint8_t row_page, uint8_t column);
 void display_write_image_sector(uint8_t row_page, uint8_t column, uint8_t value);
 void display_update(uint8_t new_value);
 
+extern bool is_need_to_change_mirror;
+
 #define DISPLAY_EMPTY_BYTE  0x00
 
 #define DISPLAY_ROW_PAGES   8
@@ -40,3 +42,7 @@ void display_update(uint8_t new_value);
 #define SYMBOLS_ALL         3
 #define NO_MIRROR_MAX       0x7F
 #define NUM_DIGITS          10
+
+#define SYMBOL_PLUS_INDEX           0
+#define SYMBOL_MINUS_INDEX          2
+#define SYMBOL_DIGIT_BEGIN_INDEX    2

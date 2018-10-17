@@ -3,6 +3,8 @@
 #include "led.h"
 #include "FontAJIOB.h"
 
+bool is_need_to_change_mirror = false;
+
 void spi_display_init()
 {
     spi_display_disable();
@@ -268,9 +270,10 @@ void display_update(uint8_t new_value)
     static uint8_t old_value = 255;
     static bool old_mirror = false;
 
-    bool new_mirror = (new_value > NO_MIRROR_MAX);
+    bool new_mirror = is_need_to_change_mirror ^ old_mirror;
+    is_need_to_change_mirror = false;
 
-    if (old_value != new_value)
+    if ((old_value != new_value) || (old_mirror != new_mirror))
     {
         if (old_mirror != new_mirror)
         {
@@ -291,12 +294,14 @@ void display_update(uint8_t new_value)
             }
         }
 
+        //TODO: print sign
+
         uint8_t to_write = new_value;
 
         //(re-)write new value
         for (int8_t i = SYMBOLS_ALL - 1; i >= 0; i--)
         {
-            display_digit_print(to_write % NUM_DIGITS, i, new_mirror, false);
+            display_digit_print((to_write % NUM_DIGITS) + SYMBOL_DIGIT_BEGIN_INDEX, i, new_mirror, false);
             to_write /= NUM_DIGITS;
         }
     }

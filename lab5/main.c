@@ -46,6 +46,8 @@ int main( void )
   /* Load display font test */
   display_update(129);
   long_delay();
+  display_update(93);
+  long_delay();
   display_update(45);
   long_delay();
   display_update(67);
