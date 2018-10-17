@@ -10,6 +10,7 @@ bool get_led_state(led_t led);
 led_t calc_next_led(led_t led);
 
 void arifm_delay();
+void long_delay();
 
 #define ERROR_LED led1
 #define GOOD_LED led3

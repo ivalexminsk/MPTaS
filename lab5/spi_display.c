@@ -122,8 +122,8 @@ void display_init()
     uint8_t seg_direction = 0xA1;
     spi_display_send(&seg_direction, 1);
 
-    // COM no reverce
-    uint8_t com_direction = 0xC0;
+    // COM reverce
+    uint8_t com_direction = 0xC8;
     spi_display_send(&com_direction, 1);
 
     // Show sram content

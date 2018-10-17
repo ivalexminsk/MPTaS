@@ -42,6 +42,18 @@ int main( void )
   GIE_ENABLE;
 
   display_init();
+
+  /* Load display font test */
+  display_update(129);
+  long_delay();
+  display_update(45);
+  long_delay();
+  display_update(67);
+  long_delay();
+  display_update(83);
+  long_delay();
+  /* Load display font test end */
+
   accelerometer_init();
 
   set_led_state(GOOD_LED, true);

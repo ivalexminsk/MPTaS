@@ -101,10 +101,15 @@ bool get_led_state(led_t led)
 void arifm_delay()
 {
   static volatile int temp;
-  for(int i = 0; i < 3000; i++)
+  for(int i = 0; i < 30000; i++)
   {
     temp *= (37 - i) * (2 + i);
   }
+}
+
+void long_delay()
+{
+  __delay_cycles(10000000);
 }
 
 led_t calc_next_led(led_t led)
