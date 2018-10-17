@@ -1,6 +1,7 @@
 #include "spi.h"
 #include "AJIOB_regs_help.h"
 #include "led.h"
+#include "spi_display.h"
 
 void spi_init()
 {
@@ -217,7 +218,7 @@ void accelerometer_interrupt_handle()
 
         //x axis value read
         uint8_t x = accelerometer_read_reg(0x06);
-        //TODO: display print
+        display_update(x);
     }
 }
 
