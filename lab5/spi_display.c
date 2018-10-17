@@ -277,8 +277,8 @@ void display_update(uint8_t new_value)
     {
         if (old_mirror != new_mirror)
         {
-            //clear old
-            for (uint8_t i = 0; i < SYMBOLS_ALL; i++)
+            //clear old (with sign)
+            for (uint8_t i = 0; i < (SYMBOLS_ALL + 1); i++)
             {
                 display_digit_print(0, i, old_mirror, true);
             }
@@ -294,14 +294,17 @@ void display_update(uint8_t new_value)
             }
         }
 
-        //TODO: print sign
+        bool minus_sign = (new_mirror > NO_MIRROR_MAX);
 
-        uint8_t to_write = new_value;
+        //(re-)print sign
+        display_digit_print(minus_sign ? (SYMBOL_MINUS_INDEX) : (SYMBOL_PLUS_INDEX), 0, new_mirror, false);
+
+        uint8_t to_write = minus_sign ? (~new_value) : new_value;
 
         //(re-)write new value
         for (int8_t i = SYMBOLS_ALL - 1; i >= 0; i--)
         {
-            display_digit_print((to_write % NUM_DIGITS) + SYMBOL_DIGIT_BEGIN_INDEX, i, new_mirror, false);
+            display_digit_print((to_write % NUM_DIGITS) + SYMBOL_DIGIT_BEGIN_INDEX, i + 1, new_mirror, false);
             to_write /= NUM_DIGITS;
         }
     }

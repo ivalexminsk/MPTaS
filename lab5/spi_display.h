@@ -44,5 +44,5 @@ extern bool is_need_to_change_mirror;
 #define NUM_DIGITS          10
 
 #define SYMBOL_PLUS_INDEX           0
-#define SYMBOL_MINUS_INDEX          2
+#define SYMBOL_MINUS_INDEX          1
 #define SYMBOL_DIGIT_BEGIN_INDEX    2
