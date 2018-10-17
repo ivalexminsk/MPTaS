@@ -75,6 +75,7 @@ __interrupt void port2_interrupt()
     button2_callback();
     break;
   case 0x0C:    //P2IFG.5
+    //accelerometer interrupt
     accelerometer_interrupt_handle();
     break;
   default:

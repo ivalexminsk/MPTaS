@@ -195,24 +195,15 @@ void accelerometer_init()
 
     //INT_LEVEL = low
     //I2C disabling
-    //motion detection
-    uint8_t ctrl_new_value = (BIT6 | BIT4 | BIT3);
+    //measurement, 40 Hz
+    uint8_t ctrl_new_value = (BIT6 | BIT4 | BIT2 | BIT1);
     accelerometer_write_reg(REG_CTRL, ctrl_new_value);
     ACCEL_ASSERT(REG_CTRL, ctrl_new_value);
-
-    // minimum threshold
-    uint8_t motion_threshold_new_value = (BIT1);
-    accelerometer_write_reg(REG_MOTION_THRESHILD, motion_threshold_new_value);
-    ACCEL_ASSERT(REG_MOTION_THRESHILD, motion_threshold_new_value);
 }
 
 void accelerometer_interrupt_handle()
 {
     RESET_BITS(P2IFG, BIT5);
-
-    uint8_t status = accelerometer_read_reg(REG_INT_STATUS);
-
-    if ((status & 0x03) == 0x01)
     {
         //X-axis detection
 
