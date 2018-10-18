@@ -193,10 +193,11 @@ void accelerometer_init()
     //ACCEL_ASSERT(REG_WHO_AM_I, REQUIRED_WHO_AM_I);    /* Different on few boards */
     ACCEL_ASSERT(REG_REV_ID, REQUIRED_REVID);
 
+    //Range = 2g
     //INT_LEVEL = low
     //I2C disabling
-    //measurement, 40 Hz
-    uint8_t ctrl_new_value = (BIT6 | BIT4 | BIT2 | BIT1);
+    //measurement, 100 Hz (40 Hz is not supported for 2g)
+    uint8_t ctrl_new_value = (BIT7 | BIT6 | BIT4 | BIT1);
     accelerometer_write_reg(REG_CTRL, ctrl_new_value);
     ACCEL_ASSERT(REG_CTRL, ctrl_new_value);
 }
