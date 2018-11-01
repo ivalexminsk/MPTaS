@@ -1,10 +1,9 @@
 
 #include "driverlib.h"
 
-int main( void )
+void main( void )
 {
   // Stop watchdog timer to prevent time out reset
   WDTCTL = WDTPW + WDTHOLD;
 
-  return 0;
 }

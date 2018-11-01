@@ -392,6 +392,7 @@
           <name>newCCIncludePaths</name>
           <state>$PROJ_DIR$\driverlib_MSP430F5xx_6xx</state>
           <state>$PROJ_DIR$\board_hal</state>
+          <state>$PROJ_DIR$\F5xx_F6xx_Core_Lib</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -2396,6 +2397,24 @@
     </file>
     <file>
       <name>$PROJ_DIR$\driverlib_MSP430F5xx_6xx\wdt_a.c</name>
+    </file>
+  </group>
+  <group>
+    <name>F5xx_F6xx_Core_Lib</name>
+    <file>
+      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_FLASH.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_PMAP.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_PMM.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_TLV.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_UCS.c</name>
     </file>
   </group>
   <group>
