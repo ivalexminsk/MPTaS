@@ -2376,6 +2376,15 @@
       <name>$PROJ_DIR$\driverlib_MSP430F5xx_6xx\wdt_a.c</name>
     </file>
   </group>
+  <group>
+    <name>fatfs</name>
+    <file>
+      <name>$PROJ_DIR$\fatfs\ff.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\fatfs\mmc.c</name>
+    </file>
+  </group>
   <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
