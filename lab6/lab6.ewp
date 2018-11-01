@@ -391,6 +391,7 @@
         <option>
           <name>newCCIncludePaths</name>
           <state>$PROJ_DIR$\driverlib_MSP430F5xx_6xx</state>
+          <state>$PROJ_DIR$\board_hal</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -2250,6 +2251,27 @@
       <data/>
     </settings>
   </configuration>
+  <group>
+    <name>board_hal</name>
+    <file>
+      <name>$PROJ_DIR$\board_hal\HAL_Board.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\board_hal\HAL_Buttons.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\board_hal\HAL_Cma3000.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\board_hal\HAL_Dogs102x6.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\board_hal\HAL_SDCard.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\board_hal\HAL_Wheel.c</name>
+    </file>
+  </group>
   <group>
     <name>driverlib</name>
     <file>
