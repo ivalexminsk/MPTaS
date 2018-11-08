@@ -44,6 +44,8 @@
 #include "HAL_UCS.h"
 #include "HAL_Cma3000.h"
 
+#include "driverlib.h"
+
 // CONSTANTS
 #define MCLK                    25000000
 #define TICKSPERUS              (MCLK / 1000000)
@@ -284,17 +286,54 @@ int8_t Cma3000_readRegister(uint8_t Address)
     // Wait until ready to write
     while (!(UCA0IFG & UCTXIFG)) ;
 
+    /*
+     * Configure DMA channel 0
+     * Configure channel for single transfer
+     * DMA transfers will be disabled and interrupt  flag will be set after every
+     *   1 transfer
+     * Use DMA Trigger Source 16 (UCA0RXIFG)
+     * Transfer Byte-to-byte
+     * Trigger transfer on signal held high
+     */
+    DMA_initParam dma_params = {
+        .channelSelect = DMA_CHANNEL_0,
+        .transferModeSelect = DMA_TRANSFER_SINGLE,
+        .transferSize = 1,
+        .triggerSourceSelect = DMA_TRIGGERSOURCE_16,
+        .transferUnitSelect = DMA_SIZE_SRCBYTE_DSTBYTE,
+        .triggerTypeSelect = DMA_TRIGGER_HIGH,
+    };
+    DMA_init(&dma_params);
+
+    /*
+     * Configure DMA channel 0
+     * Use SPI RX Buffer as source
+     * Don't move source address after every transfer
+     */
+    DMA_setSrcAddress(DMA_CHANNEL_0,
+        USCI_A_SPI_getReceiveBufferAddressForDMA(USCI_A0_BASE),
+        DMA_DIRECTION_UNCHANGED);
+    /*
+     * Configure DMA channel 0
+     * Use Result as destination
+     * Don't move the destination address after every transfer
+     */
+    DMA_setDstAddress(DMA_CHANNEL_0,
+        (uint32_t)&Result, DMA_DIRECTION_UNCHANGED);
+
+    DMA_enableTransfers(DMA_CHANNEL_0);
+
+    DMA_startTransfer(DMA_CHANNEL_0);
+
     // Write dummy data to TX buffer
     UCA0TXBUF = 0;
 
-    // Wait until new data was written into RX buffer
-    while (!(UCA0IFG & UCRXIFG)) ;
+    // Wait dma transfer
+    while (!DMA_getInterruptStatus(DMA_CHANNEL_0)) ;
 
-    // Read RX buffer
-    Result = UCA0RXBUF;
+    DMA_clearInterrupt(DMA_CHANNEL_0);
 
-    // Wait until USCI_A0 state machine is no longer busy
-    while (UCA0STAT & UCBUSY) ;
+    DMA_disableTransfers(DMA_CHANNEL_0);
 
     // Deselect acceleration sensor
     ACCEL_OUT |= ACCEL_CS;
