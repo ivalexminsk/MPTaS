@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "driverlib.h"
 #include "HAL_Cma3000.h"
+#include "HAL_Dogs102x6.h"
 
 void main( void )
 {
@@ -9,6 +10,10 @@ void main( void )
   WDTCTL = WDTPW + WDTHOLD;
 
   Cma3000_init();
+
+  Dogs102x6_init();
+  Dogs102x6_backlightInit();
+  Dogs102x6_setBacklight(5);
 
   printf("Hello\n");
 
