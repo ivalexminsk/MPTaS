@@ -632,9 +632,9 @@ void Dogs102x6_scrollLine(uint8_t lines)
     uint8_t cmd[] = {SET_SCROLL_LINE};
 
     //check if parameter is in range
-    if (lines > 0x1F)
+    if (lines > 0x3F)
     {
-        cmd[0] |= 0x1F;
+        cmd[0] |= 0x3F;
     }
     else
     {
