@@ -2427,6 +2427,9 @@
     </file>
   </group>
   <file>
+    <name>$PROJ_DIR$\AJIOB_HAL_display.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
 </project>
