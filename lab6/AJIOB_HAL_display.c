@@ -1,8 +1,17 @@
 #include "AJIOB_HAL_display.h"
 
+#include "HAL_Dogs102x6.h"
+
 static uint8_t next_scrollline = 0;
 
-void AJIOB_display_print_value(int8_t val)
+void AJIOB_HAL_display_init()
+{
+    Dogs102x6_init();
+    Dogs102x6_backlightInit();
+    Dogs102x6_setBacklight(5);
+}
+
+void AJIOB_HAL_display_print_value(int8_t val)
 {
     int8_t val_recalced = (((int)val) * DISPLAY_ROW_MAX_X_PLUS) / (DISPLAY_PLUS_MAX);
 
