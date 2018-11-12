@@ -6,8 +6,6 @@
 #include "AJIOB_HAL_timer_a.h"
 #include "AJIOB_HAL_file.h"
 
-FRESULT GetDirectory(char* directoryName);
-
 void main( void )
 {
   // Stop watchdog timer to prevent time out reset
@@ -21,14 +19,8 @@ void main( void )
 
   char mytest[] = "AJIOB was here";
 
-  int r1 = GetDirectory("");
-  printf("Ret code 1: %d\n", r1);
-
-  int res = WriteFile(HAL_FILE_NAME, mytest, sizeof(mytest)/sizeof(mytest[0]) - 1);
+  bool res = AJIOB_HAL_write_file((uint8_t*)mytest, sizeof(mytest)/sizeof(mytest[0]) - 1);
   printf("Ret code: %d\n", res);
-
-  int res2 = GetFile(HAL_FILE_NAME);
-  printf("Ret code get: %d\n", res2);
 
   __enable_interrupt();
 
