@@ -1,6 +1,8 @@
 #include "AJIOB_HAL_display.h"
 
+#include "driverlib.h"
 #include "HAL_Dogs102x6.h"
+#include "IvAlex_Logo.h"
 
 static uint8_t next_scrollline = 0;
 
@@ -9,6 +11,9 @@ void AJIOB_HAL_display_init()
     Dogs102x6_init();
     Dogs102x6_backlightInit();
     Dogs102x6_setBacklight(5);
+
+    Dogs102x6_imageDraw(image_data_IvAlex_Logo, 0, 0);
+    __delay_cycles(DISPLAY_LOGO_SLEEP_TICKS);
 }
 
 void AJIOB_HAL_display_print_value(int8_t val)
@@ -20,7 +25,7 @@ void AJIOB_HAL_display_print_value(int8_t val)
     // previous clearing
     for (uint8_t i = 0; i < DISPLAY_LINES_TO_SHOW; i++)
     {
-        Dogs102x6_horizontalLineDraw(0, DOGS102x6_X_SIZE - 1, 
+        Dogs102x6_horizontalLineDraw(0, DOGS102x6_X_SIZE - 1,
             (next_scrollline + i) % DOGS102x6_Y_SIZE, DOGS102x6_DRAW_INVERT);
     }
 
@@ -31,7 +36,7 @@ void AJIOB_HAL_display_print_value(int8_t val)
     // print new data
     for (uint8_t i = 0; i < DISPLAY_LINES_TO_SHOW; i++)
     {
-        Dogs102x6_horizontalLineDraw(x_start, x_stop, 
+        Dogs102x6_horizontalLineDraw(x_start, x_stop,
             (next_scrollline + i) % DOGS102x6_Y_SIZE, DOGS102x6_DRAW_NORMAL);
     }
 
