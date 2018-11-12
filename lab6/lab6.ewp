@@ -2276,6 +2276,18 @@
     </file>
   </group>
   <group>
+    <name>CTS</name>
+    <file>
+      <name>$PROJ_DIR$\CTS\CTS_HAL.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\CTS\CTS_Layer.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\CTS\structure.c</name>
+    </file>
+  </group>
+  <group>
     <name>driverlib</name>
     <file>
       <name>$PROJ_DIR$\driverlib_MSP430F5xx_6xx\adc10_a.c</name>
