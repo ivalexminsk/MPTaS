@@ -27,7 +27,7 @@ __interrupt void TA1_ISR()
 
     Cma3000_readAccel();
 
-    buffer_append(Cma3000_xAccel);
+    AJIOB_HAL_buffer_append(Cma3000_xAccel);
 
     AJIOB_HAL_display_print_value(Cma3000_xAccel);
 }
