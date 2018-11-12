@@ -393,6 +393,8 @@
           <state>$PROJ_DIR$\driverlib_MSP430F5xx_6xx</state>
           <state>$PROJ_DIR$\board_hal</state>
           <state>$PROJ_DIR$\F5xx_F6xx_Core_Lib</state>
+          <state>$PROJ_DIR$\fatfs</state>
+          <state>$PROJ_DIR$\UXdemo</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -2426,11 +2428,20 @@
       <name>$PROJ_DIR$\fatfs\mmc.c</name>
     </file>
   </group>
+  <group>
+    <name>UXdemo</name>
+    <file>
+      <name>$PROJ_DIR$\UXdemo\SDCard.c</name>
+    </file>
+  </group>
   <file>
     <name>$PROJ_DIR$\AJIOB_HAL_buffer.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\AJIOB_HAL_display.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\AJIOB_HAL_file.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\AJIOB_HAL_timer_a.c</name>
