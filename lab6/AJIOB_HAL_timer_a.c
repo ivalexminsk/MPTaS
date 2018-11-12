@@ -4,6 +4,7 @@
 #include "HAL_Cma3000.h"
 
 #include "AJIOB_HAL_display.h"
+#include "AJIOB_HAL_buffer.h"
 
 void AJIOB_HAL_timer_a_init()
 {
@@ -26,7 +27,7 @@ __interrupt void TA1_ISR()
 
     Cma3000_readAccel();
 
-    AJIOB_HAL_display_print_value(Cma3000_xAccel);
+    buffer_append(Cma3000_xAccel);
 
-    //TODO: add to buffer
+    AJIOB_HAL_display_print_value(Cma3000_xAccel);
 }
