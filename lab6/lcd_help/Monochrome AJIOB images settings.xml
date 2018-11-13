@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preset>
-  <name>Monochrome AJIOB vertical</name>
+  <name>Monochrome AJIOB images</name>
   <prepare>
     <convType>0</convType>
     <monoType>1</monoType>
     <edge>128</edge>
-    <scanMain>2</scanMain>
+    <scanMain>0</scanMain>
     <scanSub>0</scanSub>
     <inverse>1</inverse>
     <bandScanning>0</bandScanning>
     <bandWidth>1</bandWidth>
-    <useCustomScript>0</useCustomScript>
-    <customScript><![CDATA[]]></customScript>
+    <useCustomScript>1</useCustomScript>
+    <customScript><![CDATA[/*
+ * top to bottom (get by 8 bits)
+ * forward
+ */
+
+var bits_in_byte = 8;
+
+for (var y = 0; y < image.height; y += bits_in_byte) {
+    for (var x = 0; x < image.width; x++) {
+        for (var b = 0; b < bits_in_byte; b++) {        
+            image.addPoint(x, y + b);
+        }
+    }
+}
+]]></customScript>
   </prepare>
   <matrix>
     <maskUsed>00000001</maskUsed>
