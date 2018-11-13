@@ -20,7 +20,8 @@ void AJIOB_HAL_display_print_value(int8_t val)
 {
     int8_t val_recalced = (((int)val) * DISPLAY_ROW_MAX_X_PLUS) / (DISPLAY_PLUS_MAX);
 
-    Dogs102x6_scrollLine(next_scrollline);
+    // use inverted scrolline
+    Dogs102x6_scrollLine(DOGS102x6_Y_SIZE - 1 - next_scrollline);
 
     // previous clearing
     for (uint8_t i = 0; i < DISPLAY_LINES_TO_SHOW; i++)

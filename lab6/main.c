@@ -6,6 +6,9 @@
 #include "AJIOB_HAL_timer_a.h"
 #include "AJIOB_HAL_file.h"
 
+#define READY_LED_PORT  GPIO_PORT_P8
+#define READY_LED_PIN   GPIO_PIN2
+
 void main( void )
 {
   // Stop watchdog timer to prevent time out reset
@@ -14,13 +17,12 @@ void main( void )
   Cma3000_init();
 
   AJIOB_HAL_display_init();
-  AJIOB_HAL_timer_a_init();
   AJIOB_HAL_init_file();
+  AJIOB_HAL_timer_a_init();
 
-  char mytest[] = "AJIOB was here";
-
-  bool res = AJIOB_HAL_write_file((uint8_t*)mytest, sizeof(mytest)/sizeof(mytest[0]) - 1);
-  printf("Ret code: %d\n", res);
+  // board is ready
+  GPIO_setAsOutputPin(READY_LED_PORT, READY_LED_PIN);
+  GPIO_setOutputHighOnPin(READY_LED_PORT, READY_LED_PIN);
 
   __enable_interrupt();
 
