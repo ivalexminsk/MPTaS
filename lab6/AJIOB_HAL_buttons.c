@@ -11,5 +11,7 @@ void AJIOB_HAL_buttons_init()
 
 bool AJIOB_HAL_buttons_is_pressed_S2()
 {
-    return (buttonsPressed & BUTTON_S2);
+    bool res = (buttonsPressed & BUTTON_S2);
+    buttonsPressed &= ~(BUTTON_S2);
+    return res;
 }
