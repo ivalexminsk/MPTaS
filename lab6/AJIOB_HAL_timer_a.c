@@ -17,23 +17,23 @@ void AJIOB_HAL_timer_a_init()
         .timerClear = TIMER_A_DO_CLEAR,
         .startTimer = true,
     };
-    Timer_A_initUpMode(TIMER_A1_BASE, &t_a_params);
+    Timer_A_initUpMode(TIMER_A0_BASE, &t_a_params);
 }
 
 void AJIOB_HAL_timer_a_start()
 {
-    Timer_A_enableInterrupt(TIMER_A1_BASE);
+    Timer_A_enableInterrupt(TIMER_A0_BASE);
 }
 
 void AJIOB_HAL_timer_a_stop()
 {
-    Timer_A_disableInterrupt(TIMER_A1_BASE);
+    Timer_A_disableInterrupt(TIMER_A0_BASE);
 }
 
-#pragma vector=TIMER1_A0_VECTOR
-__interrupt void TA1_ISR()
+#pragma vector=TIMER0_A0_VECTOR
+__interrupt void TA0_ISR()
 {
-    Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
     Cma3000_readAccel();
 
