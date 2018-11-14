@@ -20,6 +20,16 @@ void AJIOB_HAL_timer_a_init()
     Timer_A_initUpMode(TIMER_A1_BASE, &t_a_params);
 }
 
+void AJIOB_HAL_timer_a_start()
+{
+    Timer_A_enableInterrupt(TIMER_A1_BASE);
+}
+
+void AJIOB_HAL_timer_a_stop()
+{
+    Timer_A_disableInterrupt(TIMER_A1_BASE);
+}
+
 #pragma vector=TIMER1_A0_VECTOR
 __interrupt void TA1_ISR()
 {

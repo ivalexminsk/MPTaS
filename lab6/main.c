@@ -1,5 +1,4 @@
 
-#include <stdio.h>
 #include "driverlib.h"
 #include "HAL_Cma3000.h"
 #include "AJIOB_HAL_display.h"
@@ -7,6 +6,7 @@
 #include "AJIOB_HAL_file.h"
 #include "AJIOB_HAL_pads.h"
 #include "AJIOB_HAL_buttons.h"
+#include "sw_interrupts.h"
 
 #define READY_LED_PORT  GPIO_PORT_P8
 #define READY_LED_PIN   GPIO_PIN2
@@ -30,9 +30,18 @@ void main( void )
 
   __enable_interrupt();
 
-  while (1);
+  while (1)
   {
-    Cma3000_readAccel();
-    printf("X=%d\tY=%d\tZ=%d\n", Cma3000_xAccel, Cma3000_yAccel, Cma3000_zAccel);
+    if (AJIOB_HAL_buttons_is_pressed_S2())
+    {
+      Button_S2_ISR();
+    }
+    if (AJIOB_HAL_pads_is_pressed(PAD_INTERRUPT))
+    {
+      PAD1_ISR();
+    }
+
+    // skip 1/25 s
+    __delay_cycles(1000000);
   }
 }
