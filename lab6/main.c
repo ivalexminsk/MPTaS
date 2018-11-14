@@ -18,8 +18,8 @@ void main( void )
 
   Cma3000_init();
 
-  AJIOB_HAL_display_init();
   AJIOB_HAL_pads_init();
+  AJIOB_HAL_display_init();
   AJIOB_HAL_buttons_init();
   AJIOB_HAL_init_file();
   AJIOB_HAL_timer_a_init();
