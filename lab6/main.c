@@ -19,8 +19,6 @@ void main( void )
 
   AJIOB_HAL_display_init();
   AJIOB_HAL_pads_init();
-  __enable_interrupt();
-  CapDemo();
   AJIOB_HAL_init_file();
   AJIOB_HAL_timer_a_init();
 
