@@ -5,6 +5,7 @@
 #include "AJIOB_HAL_display.h"
 #include "AJIOB_HAL_timer_a.h"
 #include "AJIOB_HAL_file.h"
+#include "AJIOB_HAL_pads.h"
 
 #define READY_LED_PORT  GPIO_PORT_P8
 #define READY_LED_PIN   GPIO_PIN2
@@ -17,6 +18,9 @@ void main( void )
   Cma3000_init();
 
   AJIOB_HAL_display_init();
+  AJIOB_HAL_pads_init();
+  __enable_interrupt();
+  CapDemo();
   AJIOB_HAL_init_file();
   AJIOB_HAL_timer_a_init();
 
