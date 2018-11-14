@@ -34,3 +34,19 @@ bool AJIOB_HAL_pads_is_pressed(uint8_t i)
     TI_CAPT_Custom(&slider, deltaCount);
     return (deltaCount[i] > AJIOB_HAL_PAD_DETECTION_LEVEL);
 }
+
+static bool saved_values[AJIOB_HAL_PAD_COUNT] = {0};
+
+bool AJIOB_HAL_pads_is_press_rise(uint8_t i)
+{
+    bool curr = AJIOB_HAL_pads_is_pressed(i);
+    i--;
+    if (i >= AJIOB_HAL_PAD_COUNT)
+    {
+        return false;
+    }
+    bool res = (curr && !(saved_values[i]));
+    saved_values[i] = res;
+
+    return res;
+}

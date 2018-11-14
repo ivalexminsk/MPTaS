@@ -36,12 +36,12 @@ void main( void )
     {
       Button_S2_ISR();
     }
-    if (AJIOB_HAL_pads_is_pressed(PAD_INTERRUPT))
+    if (AJIOB_HAL_pads_is_press_rise(PAD_INTERRUPT))
     {
       PAD1_ISR();
     }
 
-    // skip 1/25 s
-    __delay_cycles(1000000);
+    // skip 1/6 s
+    __delay_cycles(4000000);
   }
 }
