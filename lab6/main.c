@@ -6,6 +6,7 @@
 #include "AJIOB_HAL_timer_a.h"
 #include "AJIOB_HAL_file.h"
 #include "AJIOB_HAL_pads.h"
+#include "AJIOB_HAL_buttons.h"
 
 #define READY_LED_PORT  GPIO_PORT_P8
 #define READY_LED_PIN   GPIO_PIN2
@@ -19,6 +20,7 @@ void main( void )
 
   AJIOB_HAL_display_init();
   AJIOB_HAL_pads_init();
+  AJIOB_HAL_buttons_init();
   AJIOB_HAL_init_file();
   AJIOB_HAL_timer_a_init();
 

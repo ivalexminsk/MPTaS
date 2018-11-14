@@ -1,8 +1,6 @@
 #include "AJIOB_HAL_pads.h"
 
 #include "HAL_Dogs102x6.h"
-#include "HAL_Buttons.h"
-#include "HAL_Board.h"
 #include "CTS_Layer.h"
 #include "HAL_UCS.h"
 #include "HAL_PMM.h"
@@ -22,10 +20,6 @@ void AJIOB_HAL_pads_init()
     P6DIR = 0x00;
 
     TI_CAPT_Init_Baseline(&slider);
-
-    Buttons_init(BUTTON_S2);
-    Buttons_interruptEnable(BUTTON_S2);
-    buttonsPressed = 0;
 }
 
 bool AJIOB_HAL_pads_is_pressed(uint8_t i)

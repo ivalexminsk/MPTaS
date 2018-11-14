@@ -2451,6 +2451,9 @@
     <name>$PROJ_DIR$\AJIOB_HAL_buffer.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\AJIOB_HAL_buttons.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\AJIOB_HAL_display.c</name>
   </file>
   <file>
