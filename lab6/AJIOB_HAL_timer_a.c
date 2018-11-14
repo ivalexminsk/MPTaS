@@ -22,12 +22,14 @@ void AJIOB_HAL_timer_a_init()
 
 void AJIOB_HAL_timer_a_start()
 {
-    Timer_A_enableInterrupt(TIMER_A0_BASE);
+    Timer_A_enableCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+    Timer_A_clear(TIMER_A0_BASE);
 }
 
 void AJIOB_HAL_timer_a_stop()
 {
-    Timer_A_disableInterrupt(TIMER_A0_BASE);
+    Timer_A_disableCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 }
 
 #pragma vector=TIMER0_A0_VECTOR
