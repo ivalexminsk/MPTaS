@@ -2448,6 +2448,9 @@
     </file>
   </group>
   <file>
+    <name>$PROJ_DIR$\adc.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\AJIOB_HAL_buffer.c</name>
   </file>
   <file>
