@@ -8,6 +8,10 @@
 #include "AJIOB_HAL_buttons.h"
 #include "sw_interrupts.h"
 
+#include "calc_logic.h"
+
+#include <stdio.h>
+
 #define READY_LED_PORT  GPIO_PORT_P8
 #define READY_LED_PIN   GPIO_PIN2
 
@@ -15,6 +19,10 @@ void main( void )
 {
   // Stop watchdog timer to prevent time out reset
   WDTCTL = WDTPW + WDTHOLD;
+
+  long res = multiply(-3435, 4534);
+
+  printf("R = %ld\n", res);
 
   while(1);
 

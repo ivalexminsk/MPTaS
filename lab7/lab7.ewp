@@ -2466,9 +2466,14 @@
     <name>$PROJ_DIR$\AJIOB_HAL_timer_a.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\calc_logic.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\sw_interrupts.c</name>
   </file>
 </project>
+
+
