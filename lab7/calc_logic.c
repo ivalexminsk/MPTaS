@@ -19,3 +19,18 @@ long multiply(short o1, short o2)
     result = (result << 16) + HWREG16(MPY32_BASE + OFS_RES0);
     return result;
 }
+
+long add(short o1, short o2)
+{
+    return ((long)o1 + o2);
+}
+
+long sub(short o1, short o2)
+{
+    return ((long)o1 - o2);
+}
+
+long mod(short o1, short o2)
+{
+    return (o1 % o2);
+}
