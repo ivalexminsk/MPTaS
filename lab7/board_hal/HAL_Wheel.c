@@ -156,7 +156,7 @@ void Wheel_enable(void)
  * @return none
  ******************************************************************************/
 
-#pragma vector = ADC12_VECTOR
+//#pragma vector = ADC12_VECTOR
 __interrupt void ADC12_ISR(void)
 {
     switch (__even_in_range(ADC12IV, ADC12IV_ADC12IFG15))

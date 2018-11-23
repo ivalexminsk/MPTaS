@@ -32,14 +32,15 @@ void AJIOB_HAL_timer_a_stop()
     Timer_A_disableCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 }
 
+void AJIOB_HAL_timer_a_reset()
+{
+    Timer_A_clear(TIMER_A0_BASE);
+}
+
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void TA0_ISR()
 {
     Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
-    Cma3000_readAccel();
-
-    AJIOB_HAL_buffer_append(Cma3000_xAccel);
-
-    AJIOB_HAL_display_print_value(Cma3000_xAccel);
+    //TODO: switch input symbol
 }

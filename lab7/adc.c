@@ -4,6 +4,9 @@
 
 #include "driverlib.h"
 #include "AJIOB_regs_help.h"
+#include "AJIOB_HAL_timer_a.h"
+
+pot_state_t pot_state = pot_state_mid;
 
 void adc_init()
 {
@@ -94,5 +97,23 @@ void adc_output_parse()
     short val_temp = ADC12MEM0;
     short val_potent = ADC12MEM1;
 
-    //TODO: parse POT value
+    pot_state_t new_pot_state =
+        (val_potent >= ADC_SCROLL_RIGHT_MIN) ? pot_state_right :
+        (val_potent <= ADC_SCROLL_LEFT_MAX) ? pot_state_left :
+        pot_state_mid;
+
+    if ((new_pot_state != pot_state) || (new_pot_state == pot_state_mid))
+    {
+        //state was changed or mid state, skip display updating
+        AJIOB_HAL_timer_a_reset();
+    }
+
+    pot_state = new_pot_state;
+}
+
+#pragma vector=ADC12_VECTOR
+__interrupt void adc_interrupt()
+{
+    adc_output_parse();
+    adc_interrupt_clear();
 }
