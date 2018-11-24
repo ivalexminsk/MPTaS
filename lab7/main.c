@@ -30,9 +30,9 @@ void main( void )
 
   while (1)
   {
-    if (AJIOB_HAL_buttons_is_pressed_S2())
+    if (AJIOB_HAL_buttons_is_pressed_S1())
     {
-      Button_S2_ISR();
+      Button_S1_ISR();
     }
 
     // skip 1/6 s

@@ -2,5 +2,4 @@
 
 #define PAD_INTERRUPT 1
 
-void Button_S2_ISR();
-void PAD1_ISR();
+void Button_S1_ISR();

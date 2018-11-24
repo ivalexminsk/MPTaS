@@ -4,7 +4,7 @@
 
 #include "device_state.h"
 
-void Button_S2_ISR()
+void Button_S1_ISR()
 {
     __disable_interrupt();
 
