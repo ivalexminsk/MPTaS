@@ -6,7 +6,6 @@
 #include "driverlib.h"
 #include "HAL_Dogs102x6.h"
 
-#include "AJIOB_HAL_file.h"
 #include "AJIOB_HAL_buffer.h"
 #include "AJIOB_HAL_timer_a.h"
 #include "AJIOB_HAL_display.h"

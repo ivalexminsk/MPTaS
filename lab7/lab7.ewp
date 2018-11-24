@@ -2460,13 +2460,7 @@
     <name>$PROJ_DIR$\AJIOB_HAL_display.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\AJIOB_HAL_file.c</name>
-  </file>
-  <file>
     <name>$PROJ_DIR$\AJIOB_HAL_flash.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\AJIOB_HAL_pads.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\AJIOB_HAL_timer_a.c</name>
