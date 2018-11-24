@@ -2451,9 +2451,6 @@
     <name>$PROJ_DIR$\adc.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\AJIOB_HAL_buffer.c</name>
-  </file>
-  <file>
     <name>$PROJ_DIR$\AJIOB_HAL_buttons.c</name>
   </file>
   <file>
@@ -2467,6 +2464,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\calc_logic.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\device_state.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\main.c</name>

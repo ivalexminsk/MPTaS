@@ -18,12 +18,6 @@ void main( void )
   // Stop watchdog timer to prevent time out reset
   WDTCTL = WDTPW + WDTHOLD;
 
-  long res = multiply(-3435, 4534);
-
-  printf("R = %ld\n", res);
-
-  while(1);
-
   AJIOB_HAL_display_init();
   AJIOB_HAL_buttons_init();
   AJIOB_HAL_timer_a_init();

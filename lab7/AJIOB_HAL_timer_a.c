@@ -4,7 +4,6 @@
 #include "HAL_Cma3000.h"
 
 #include "AJIOB_HAL_display.h"
-#include "AJIOB_HAL_buffer.h"
 
 void AJIOB_HAL_timer_a_init()
 {
