@@ -2,7 +2,8 @@
 
 typedef enum device_state_t
 {
-    device_state_num1_3 = 0,
+    device_state_begin_NULL = 0,    //Begin of sequence flag
+    device_state_num1_3,
     device_state_num1_2,
     device_state_num1_1,
     device_state_num1_0,
@@ -12,7 +13,11 @@ typedef enum device_state_t
     device_state_num2_1,
     device_state_num2_0,
     device_state_result,
+    device_state_end_NULL,          //End of sequence flag
 } device_state_t;
+
+#define DEVICE_STATE_FIRST (device_state_t)(device_state_begin_NULL + 1)
+#define DEVICE_STATE_LAST  (device_state_t)(device_state_end_NULL - 1)
 
 typedef enum inputs_t
 {

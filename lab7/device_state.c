@@ -1,5 +1,9 @@
 #include "device_state.h"
 
+#include "device_callbacks.h"
+
+#include <stdlib.h>
+
 inputs_t inputs_num_3[] = {
     inputs_digit0,
     inputs_digit1,
@@ -68,19 +72,69 @@ inputs_t* inputs_for_states[] = {
     inputs_result,       //device_state_result
 };
 
-device_state_t local_device_state = device_state_num1_3;
+callback_func_t callbacks_for_inputs[] = {
+    append_digit,           //inputs_digit0
+    append_digit,           //inputs_digit1
+    append_digit,           //inputs_digit2
+    append_digit,           //inputs_digit3
+    append_digit,           //inputs_digit4
+    append_digit,           //inputs_digit5
+    append_digit,           //inputs_digit6
+    append_digit,           //inputs_digit7
+    append_digit,           //inputs_digit8
+    append_digit,           //inputs_digit9
+    append_digit,           //inputs_digitA
+    append_digit,           //inputs_digitB
+    append_digit,           //inputs_digitC
+    append_digit,           //inputs_digitD
+    append_digit,           //inputs_digitE
+    append_digit,           //inputs_digitF
+    select_operation,       //inputs_operationPlus
+    select_operation,       //inputs_operationMinus
+    select_operation,       //inputs_operationMul
+    select_operation,       //inputs_operationMod
+    memo_operation,         //inputs_memoRead
+    memo_operation,         //inputs_memoWrite
+    clear_all,              //inputs_nextCalc
+    NULL,                   //inputs_NULL
+};
+
+device_state_t local_device_state = DEVICE_STATE_FIRST;
+int local_input_index = 0;
 
 void select_prev_button()
 {
-    //TODO:
+    local_input_index--;
+    if (local_input_index < 0)
+    {
+        //TODO: set last???? index
+    }
+
+    //TODO: print input button logo
 }
 
 void select_next_button()
 {
-    //TODO:
+    local_input_index++;
+    if (inputs_for_states[local_device_state][local_input_index] == inputs_NULL)
+    {
+        local_input_index = 0;
+    }
+
+    //TODO: print input button logo
 }
 
 void enter_button()
 {
-    //TODO:
+    inputs_t curr_input = inputs_for_states[local_device_state][local_input_index];
+    callback_func_t cb = callbacks_for_inputs[curr_input];
+    cb(local_device_state, curr_input);
+
+    //switch to next state & loop it
+    local_device_state++;
+    if (local_device_state >= device_state_end_NULL)
+    {
+        local_device_state = DEVICE_STATE_FIRST;
+    }
+    local_input_index = 0;
 }
