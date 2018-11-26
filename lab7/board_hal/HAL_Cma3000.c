@@ -41,7 +41,6 @@
  * @{
  ******************************************************************************/
 #include "msp430.h"
-#include "HAL_UCS.h"
 #include "HAL_Cma3000.h"
 
 #include "driverlib.h"
