@@ -39,6 +39,8 @@ void append_digit(device_state_t curr_state, inputs_t curr_input)
 void select_operation(device_state_t curr_state, inputs_t curr_input)
 {
     operation = curr_input;
+
+    AJIOB_HAL_display_print_append_nums(curr_input);
 }
 
 void memo_operation(device_state_t curr_state, inputs_t curr_input)
