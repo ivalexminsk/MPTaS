@@ -31,6 +31,7 @@ void main( void )
   GPIO_setOutputHighOnPin(READY_LED_PORT, READY_LED_PIN);
 
   clear_all(device_state_begin_NULL, inputs_NULL);
+  repaint_input_mode();
 
   __enable_interrupt();
 

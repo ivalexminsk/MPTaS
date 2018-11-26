@@ -111,8 +111,7 @@ void select_prev_button()
         local_input_index = 0;
     }
 
-    inputs_t curr_input = inputs_for_states[local_device_state][local_input_index];
-    AJIOB_HAL_display_print_input_mode(curr_input);
+    repaint_input_mode();
 }
 
 void select_next_button()
@@ -123,8 +122,7 @@ void select_next_button()
         local_input_index--;
     }
 
-    inputs_t curr_input = inputs_for_states[local_device_state][local_input_index];
-    AJIOB_HAL_display_print_input_mode(curr_input);
+    repaint_input_mode();
 }
 
 void enter_button()
@@ -146,6 +144,11 @@ void enter_button()
     }
     local_input_index = 0;
 
-    curr_input = inputs_for_states[local_device_state][local_input_index];
+    repaint_input_mode();
+}
+
+void repaint_input_mode()
+{
+    inputs_t curr_input = inputs_for_states[local_device_state][local_input_index];
     AJIOB_HAL_display_print_input_mode(curr_input);
 }
