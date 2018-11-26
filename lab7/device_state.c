@@ -1,6 +1,7 @@
 #include "device_state.h"
 
 #include "device_callbacks.h"
+#include "AJIOB_HAL_display.h"
 
 #include <stdlib.h>
 
@@ -107,10 +108,11 @@ void select_prev_button()
     local_input_index--;
     if (local_input_index < 0)
     {
-        //TODO: set last???? index
+        local_input_index = 0;
     }
 
-    //TODO: print input button logo
+    inputs_t curr_input = inputs_for_states[local_device_state][local_input_index];
+    AJIOB_HAL_display_print_input_mode(curr_input);
 }
 
 void select_next_button()
@@ -118,10 +120,11 @@ void select_next_button()
     local_input_index++;
     if (inputs_for_states[local_device_state][local_input_index] == inputs_NULL)
     {
-        local_input_index = 0;
+        local_input_index--;
     }
 
-    //TODO: print input button logo
+    inputs_t curr_input = inputs_for_states[local_device_state][local_input_index];
+    AJIOB_HAL_display_print_input_mode(curr_input);
 }
 
 void enter_button()
@@ -137,4 +140,7 @@ void enter_button()
         local_device_state = DEVICE_STATE_FIRST;
     }
     local_input_index = 0;
+
+    curr_input = inputs_for_states[local_device_state][local_input_index];
+    AJIOB_HAL_display_print_input_mode(curr_input);
 }
