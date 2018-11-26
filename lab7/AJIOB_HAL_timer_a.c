@@ -4,6 +4,7 @@
 #include "HAL_Cma3000.h"
 
 #include "AJIOB_HAL_display.h"
+#include "adc.h"
 
 void AJIOB_HAL_timer_a_init()
 {
@@ -41,5 +42,13 @@ __interrupt void TA0_ISR()
 {
     Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 
-    //TODO: switch input symbol
+    if (pot_state == pot_state_left)
+    {
+        select_prev_button();
+    }
+    else
+    {
+        //pot_state_right
+        select_next_button();
+    }
 }
