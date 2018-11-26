@@ -1,7 +1,7 @@
 #pragma once
 
-#define ADC_SCROLL_RIGHT_MIN    0xAAA
-#define ADC_SCROLL_LEFT_MAX     0x555
+#define ADC_SCROLL_RIGHT_MIN    100
+#define ADC_SCROLL_LEFT_MAX     70
 
 typedef enum pot_state_t
 {
