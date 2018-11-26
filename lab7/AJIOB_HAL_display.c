@@ -49,8 +49,6 @@ void AJIOB_HAL_display_init()
 
 void AJIOB_HAL_display_print_input_mode(inputs_t mode)
 {
-    Dogs102x6_charDraw(DISPLAY_FONT_Y_INPUT, 0, ' ', DOGS102x6_DRAW_INVERT);
-
     char new_char = input_to_char[mode];
     Dogs102x6_charDraw(DISPLAY_FONT_Y_INPUT, 0, new_char, DOGS102x6_DRAW_NORMAL);
 }
@@ -73,7 +71,7 @@ void AJIOB_HAL_display_print_answer(long val)
 void AJIOB_HAL_display_print_append_nums(inputs_t input)
 {
     char new_char = input_to_char[input];
-    Dogs102x6_charDraw(DISPLAY_FONT_Y_NUMS, start_pos, new_char, DOGS102x6_DRAW_NORMAL);
+    Dogs102x6_charDraw(DISPLAY_FONT_Y_NUMS, start_pos * DISPLAY_FONT_X_STEP, new_char, DOGS102x6_DRAW_NORMAL);
 
     start_pos++;
 }

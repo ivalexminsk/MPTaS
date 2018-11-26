@@ -28,6 +28,8 @@ void append_digit(device_state_t curr_state, inputs_t curr_input)
         break;
     }
 
+    AJIOB_HAL_display_print_append_nums(curr_input);
+
     if (curr_state == device_state_num2_0)
     {
         calculate_res(curr_state, curr_input);
