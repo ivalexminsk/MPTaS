@@ -19,3 +19,5 @@
 void AJIOB_HAL_display_init();
 void AJIOB_HAL_display_print_input_mode(inputs_t mode);
 void AJIOB_HAL_display_print_answer(long val);
+void AJIOB_HAL_display_print_append_nums(inputs_t input);
+void AJIOB_HAL_display_print_reset_num_pos();

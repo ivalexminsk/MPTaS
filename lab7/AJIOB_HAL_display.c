@@ -4,7 +4,36 @@
 #include "HAL_Dogs102x6.h"
 #include "IvAlex_Logo.h"
 
+char input_to_char[] = {
+    '0',            //inputs_digit0
+    '1',            //inputs_digit1
+    '2',            //inputs_digit2
+    '3',            //inputs_digit3
+    '4',            //inputs_digit4
+    '5',            //inputs_digit5
+    '6',            //inputs_digit6
+    '7',            //inputs_digit7
+    '8',            //inputs_digit8
+    '9',            //inputs_digit9
+    'A',            //inputs_digitA
+    'B',            //inputs_digitB
+    'C',            //inputs_digitC
+    'D',            //inputs_digitD
+    'E',            //inputs_digitE
+    'F',            //inputs_digitF
+    '+',            //inputs_operationPlus
+    '-',            //inputs_operationMinus
+    '*',            //inputs_operationMul
+    '%',            //inputs_operationMod
+    'R',            //inputs_memoRead
+    'W',            //inputs_memoWrite
+    '=',            //inputs_nextCalc
+};
+
+int8_t start_pos = 0;
+
 // internal prototypes
+uint8_t digit_to_symbol(uint8_t digit);
 
 //definitions
 
@@ -20,7 +49,10 @@ void AJIOB_HAL_display_init()
 
 void AJIOB_HAL_display_print_input_mode(inputs_t mode)
 {
-    //TODO:
+    Dogs102x6_charDraw(DISPLAY_FONT_Y_INPUT, 0, ' ', DOGS102x6_DRAW_INVERT);
+
+    char new_char = input_to_char[mode];
+    Dogs102x6_charDraw(DISPLAY_FONT_Y_INPUT, 0, new_char, DOGS102x6_DRAW_NORMAL);
 }
 
 void AJIOB_HAL_display_print_answer(long val)
@@ -29,9 +61,29 @@ void AJIOB_HAL_display_print_answer(long val)
     for (int8_t i = 0; i < symbols; i++)
     {
         int8_t start_pos = symbols - i - 1;
+        uint16_t digit = digit_to_symbol(val & 0xF);
+
         Dogs102x6_charDraw(DISPLAY_FONT_Y_ANSWER, start_pos * DISPLAY_FONT_X_STEP,
-            val & 0xF, DOGS102x6_DRAW_NORMAL);
+            digit, DOGS102x6_DRAW_NORMAL);
 
         val >>= 4;
     }
+}
+
+void AJIOB_HAL_display_print_append_nums(inputs_t input)
+{
+    char new_char = input_to_char[input];
+    Dogs102x6_charDraw(DISPLAY_FONT_Y_NUMS, start_pos, new_char, DOGS102x6_DRAW_NORMAL);
+
+    start_pos++;
+}
+
+void AJIOB_HAL_display_print_reset_num_pos()
+{
+    start_pos = 0;
+}
+
+uint8_t digit_to_symbol(uint8_t digit)
+{
+    return input_to_char[inputs_digit0 + digit];
 }
