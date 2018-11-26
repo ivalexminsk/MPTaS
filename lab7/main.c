@@ -5,6 +5,7 @@
 #include "AJIOB_HAL_timer_a.h"
 #include "AJIOB_HAL_buttons.h"
 #include "sw_interrupts.h"
+#include "device_callbacks.h"
 
 #include "calc_logic.h"
 
@@ -25,6 +26,8 @@ void main( void )
   // board is ready
   GPIO_setAsOutputPin(READY_LED_PORT, READY_LED_PIN);
   GPIO_setOutputHighOnPin(READY_LED_PORT, READY_LED_PIN);
+
+  clear_all(device_state_begin_NULL, inputs_NULL);
 
   __enable_interrupt();
 
