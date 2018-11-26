@@ -135,6 +135,11 @@ void enter_button()
 
     //switch to next state & loop it
     local_device_state++;
+    if (curr_input == inputs_memoRead)
+    {
+        //skip next 3 digits input
+        local_device_state += 3;
+    }
     if (local_device_state >= device_state_end_NULL)
     {
         local_device_state = DEVICE_STATE_FIRST;
