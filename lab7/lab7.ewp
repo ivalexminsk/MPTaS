@@ -2277,18 +2277,6 @@
     </file>
   </group>
   <group>
-    <name>CTS</name>
-    <file>
-      <name>$PROJ_DIR$\CTS\CTS_HAL.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\CTS\CTS_Layer.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\CTS\structure.c</name>
-    </file>
-  </group>
-  <group>
     <name>driverlib</name>
     <file>
       <name>$PROJ_DIR$\driverlib_MSP430F5xx_6xx\adc10_a.c</name>
@@ -2412,39 +2400,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\driverlib_MSP430F5xx_6xx\wdt_a.c</name>
-    </file>
-  </group>
-  <group>
-    <name>F5xx_F6xx_Core_Lib</name>
-    <file>
-      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_FLASH.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_PMAP.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_PMM.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_TLV.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\F5xx_F6xx_Core_Lib\HAL_UCS.c</name>
-    </file>
-  </group>
-  <group>
-    <name>fatfs</name>
-    <file>
-      <name>$PROJ_DIR$\fatfs\ff.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\fatfs\mmc.c</name>
-    </file>
-  </group>
-  <group>
-    <name>UXdemo</name>
-    <file>
-      <name>$PROJ_DIR$\UXdemo\SDCard.c</name>
     </file>
   </group>
   <file>
