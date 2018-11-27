@@ -61,6 +61,7 @@ inputs_t inputs_result[] = {
 };
 
 inputs_t* inputs_for_states[] = {
+    NULL,                //device_state_begin_NULL
     inputs_num_3,        //device_state_num1_3
     inputs_num_210,      //device_state_num1_2
     inputs_num_210,      //device_state_num1_1
@@ -71,6 +72,7 @@ inputs_t* inputs_for_states[] = {
     inputs_num_210,      //device_state_num2_1
     inputs_num_210,      //device_state_num2_0
     inputs_result,       //device_state_result
+    NULL,                //device_state_end_NULL
 };
 
 callback_func_t callbacks_for_inputs[] = {
