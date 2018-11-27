@@ -42,7 +42,6 @@ void main( void )
       Button_S1_ISR();
     }
 
-    // skip 1/8 s
-    __delay_cycles(131072);
+    __delay_cycles(1000);
   }
 }

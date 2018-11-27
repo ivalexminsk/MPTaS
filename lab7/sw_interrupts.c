@@ -10,5 +10,8 @@ void Button_S1_ISR()
 
     enter_button();
 
+    //sleep 1/8s
+    __delay_cycles(131000);
+
     __enable_interrupt();
 }

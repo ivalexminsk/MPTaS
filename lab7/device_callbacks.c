@@ -48,12 +48,13 @@ void memo_operation(device_state_t curr_state, inputs_t curr_input)
     if (curr_input == inputs_memoWrite)
     {
         AJIOB_write_memo(res);
+        clear_all(curr_state, curr_input);
         return;
     }
 
     //inputs_memoRead
     short read_val = AJIOB_read_memo();
-    for (int8_t i = (sizeof(read_val) * 2 - 1); i > 0; i++)
+    for (int8_t i = (sizeof(read_val) * 2 - 1); i >= 0; i--)
     {
         //digit select emulation
         append_digit(curr_state, (inputs_t)(((read_val >> (4 * i)) & 0xF) + inputs_digit0));
