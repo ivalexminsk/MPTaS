@@ -58,6 +58,7 @@
 #define BUTTON2_IFG       P2IFG      //P1.7
 
 volatile uint8_t buttonDebounce = 1;
+volatile uint16_t buttonsPressedHidden = 0;
 volatile uint16_t buttonsPressed = 0;
 
 // Forward declared functions
@@ -137,6 +138,10 @@ __interrupt void WDT_ISR(void)
         SFRIFG1 &= ~WDTIFG;
         SFRIE1 &= ~WDTIE;
         WDTCTL = WDTPW + WDTHOLD;
+
+        uint16_t curr_input = PAIN & BUTTON_ALL;
+        buttonsPressed = curr_input & buttonsPressedHidden;
+        buttonsPressedHidden = 0;
     }
 }
 
@@ -154,7 +159,7 @@ __interrupt void Port2_ISR(void)
     // Context save interrupt flag before calling interrupt vector.
     // Reading interrupt vector generator will automatically clear IFG flag
     //
-    buttonsPressed = PAIFG & BUTTON_ALL;
+    buttonsPressedHidden = PAIFG & BUTTON_ALL;
 
     switch (__even_in_range(P2IV, P2IV_P2IFG7))
     {
@@ -225,7 +230,7 @@ __interrupt void Port1_ISR(void)
     // Context save interrupt flag before calling interrupt vector.
     // Reading interrupt vector generator will automatically clear IFG flag
     //
-    buttonsPressed = PAIFG & BUTTON_ALL;
+    buttonsPressedHidden = PAIFG & BUTTON_ALL;
 
     switch (__even_in_range(P1IV, P1IV_P1IFG7))
     {
