@@ -146,6 +146,8 @@ void enter_button()
     }
     local_input_index = 0;
 
+    AJIOB_HAL_timer_a_reset();
+
     repaint_input_mode();
 }
 

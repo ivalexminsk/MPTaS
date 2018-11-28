@@ -35,6 +35,7 @@ void AJIOB_HAL_timer_a_stop()
 void AJIOB_HAL_timer_a_reset()
 {
     Timer_A_clear(TIMER_A0_BASE);
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
 }
 
 #pragma vector=TIMER0_A0_VECTOR
