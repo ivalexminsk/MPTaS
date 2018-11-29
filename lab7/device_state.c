@@ -2,6 +2,7 @@
 
 #include "device_callbacks.h"
 #include "AJIOB_HAL_display.h"
+#include "AJIOB_HAL_timer_a.h"
 
 #include <stdlib.h>
 

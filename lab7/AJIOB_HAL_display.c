@@ -2,7 +2,7 @@
 
 #include "driverlib.h"
 #include "HAL_Dogs102x6.h"
-#include "IvAlex_Logo.h"
+#include "Animation.h"
 
 char input_to_char[] = {
     '0',            //inputs_digit0
@@ -33,6 +33,8 @@ char input_to_char[] = {
 int8_t start_pos = 0;
 
 // internal prototypes
+#define CONST_COUNT(A) (sizeof(A)/sizeof(A[0]))
+
 uint8_t digit_to_symbol(uint8_t digit);
 
 //definitions
@@ -43,7 +45,18 @@ void AJIOB_HAL_display_init()
     Dogs102x6_backlightInit();
     Dogs102x6_setBacklight(5);
 
-    Dogs102x6_imageDraw(image_data_IvAlex_Logo, 0, 0);
+    const int frame_count = CONST_COUNT(Animation_array);
+
+    Dogs102x6_imageDraw(Animation_array[frame_count - 1], 0, 0);
+    __delay_cycles(DISPLAY_LOGO_SLEEP_TICKS);
+
+    for (int i = frame_count - 1; i >= 0; i--)
+    {
+        Dogs102x6_imageDraw(Animation_array[i], 0, 0);
+        __delay_cycles(DISPLAY_LOGO_ANIMATION_TICKS / CONST_COUNT(Animation_array));
+    }
+
+    Dogs102x6_imageDraw(Animation_array[0], 0, 0);
     __delay_cycles(DISPLAY_LOGO_SLEEP_TICKS);
 }
 
